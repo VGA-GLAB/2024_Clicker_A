@@ -47,9 +47,9 @@ public class ResourceManager : MonoBehaviour
     {
         while (true)
         {
-            IncreaseResource(p.ResourcePerSecond);   
+            IncreaseResource(p.ResourcePerSecond);
             yield return new WaitForSeconds(1);
-        }   
+        }
     }
     /// <summary>
     /// リソースを増やす
@@ -78,8 +78,8 @@ public class ResourceManager : MonoBehaviour
     /// <param name="name"></param>
     public void BuyProduct(string name)
     {
-        Product p = _products.Find(p => p.Name == name); 
-        if(p.CanBuy)
+        Product p = _products.Find(p => p.Name == name);
+        if (p.CanBuy)
         {
             _resource -= p.Price;
             p.UnitCount++;
@@ -88,10 +88,24 @@ public class ResourceManager : MonoBehaviour
             //p.PriceText.text = p.Price.ToString();
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            if(p.UnitCount == 1)
+            if (p.UnitCount == 1)
             {
                 StartCoroutine(GainPerSecond(p));
-            }           
+            }
+        }
+    }
+    /// <summary>
+    /// 施設のアップグレード
+    /// </summary>
+    /// <param name="name"></param>
+    public void UpGradeProduct(string name, uint rate, BigInteger price)
+    {
+        Product p = _products.Find(p => p.Name == name);
+        if(price <= _resource)
+        {
+            _resource -= price;
+            p.ProductionRate *= rate;
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
         }
     }
 }
