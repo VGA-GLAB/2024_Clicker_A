@@ -39,10 +39,6 @@ public class ResourceManager : MonoBehaviour
             p.ProductionRate = 1;
         }
     }
-    void Update()
-    {
-
-    }
     /// <summary>
     /// –ˆ•bƒŠƒ\[ƒX‚ğ‘‚â‚·
     /// </summary>
