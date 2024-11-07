@@ -9,7 +9,6 @@ public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
-    private BigInteger _increaseAmount = 0;
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
     [SerializeField] List<Product> _products;
@@ -28,7 +27,6 @@ public class ResourceManager : MonoBehaviour
         [Tooltip("購入可能かどうか")] public bool CanBuy;
         [Tooltip("価格を表示するテキスト")] public TextMeshProUGUI PriceText;
     }
-    // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < _products.Count; i++)
@@ -40,26 +38,16 @@ public class ResourceManager : MonoBehaviour
             //p.PriceText.text = p.PricePerUnit;
             p.ProductionRate = 1;
         }
-        StartCoroutine(GainPerSecond());
-    }
-    void Update()
-    {
-        for (int i = 0; i < _products.Count; i++)
-        {
-            Product p = _products[i];
-            p.CanBuy = p.Price <= _resource;
-        }
-        _resourceText.text = _resource.ToString();
     }
     /// <summary>
     /// 毎秒リソースを増やす
     /// </summary>
     /// <returns></returns>
-    IEnumerator GainPerSecond()
+    IEnumerator GainPerSecond(Product p)
     {
         while (true)
         {
-            IncreaseResource(_increaseAmount);
+            IncreaseResource(p.ResourcePerSecond);   
             yield return new WaitForSeconds(1);
         }   
     }
@@ -70,6 +58,12 @@ public class ResourceManager : MonoBehaviour
     void IncreaseResource(BigInteger resource)
     {
         _resource += resource;
+        _resourceText.text = _resource.ToString();
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            p.CanBuy = p.Price <= _resource;
+        }
     }
     /// <summary>
     /// クリック時にリソースを増やす
@@ -84,10 +78,9 @@ public class ResourceManager : MonoBehaviour
     /// <param name="name"></param>
     public void BuyProduct(string name)
     {
-        Product p = _products.Find(p => p.Name == name);    
+        Product p = _products.Find(p => p.Name == name); 
         if(p.CanBuy)
         {
-            _increaseAmount -= p.ResourcePerSecond;
             _resource -= p.Price;
             p.UnitCount++;
             //価格を上げる
@@ -95,7 +88,10 @@ public class ResourceManager : MonoBehaviour
             //p.PriceText.text = p.Price.ToString();
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            _increaseAmount += p.ResourcePerSecond;
+            if(p.UnitCount == 1)
+            {
+                StartCoroutine(GainPerSecond(p));
+            }           
         }
     }
 }
