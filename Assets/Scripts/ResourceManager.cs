@@ -28,7 +28,6 @@ public class ResourceManager : MonoBehaviour
         [Tooltip("購入可能かどうか")] public bool CanBuy;
         [Tooltip("価格を表示するテキスト")] public TextMeshProUGUI PriceText;
     }
-    // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < _products.Count; i++)
@@ -44,12 +43,7 @@ public class ResourceManager : MonoBehaviour
     }
     void Update()
     {
-        for (int i = 0; i < _products.Count; i++)
-        {
-            Product p = _products[i];
-            p.CanBuy = p.Price <= _resource;
-        }
-        _resourceText.text = _resource.ToString();
+
     }
     /// <summary>
     /// 毎秒リソースを増やす
@@ -59,7 +53,7 @@ public class ResourceManager : MonoBehaviour
     {
         while (true)
         {
-            IncreaseResource(_increaseAmount);
+            IncreaseResource(_increaseAmount);   
             yield return new WaitForSeconds(1);
         }   
     }
@@ -70,6 +64,12 @@ public class ResourceManager : MonoBehaviour
     void IncreaseResource(BigInteger resource)
     {
         _resource += resource;
+        _resourceText.text = _resource.ToString();
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            p.CanBuy = p.Price <= _resource;
+        }
     }
     /// <summary>
     /// クリック時にリソースを増やす
