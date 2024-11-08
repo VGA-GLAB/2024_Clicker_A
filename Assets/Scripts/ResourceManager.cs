@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
+    public List<Product> Products { get => _products; set => _products = value; }
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
     [SerializeField] List<Product> _products;
@@ -88,6 +89,7 @@ public class ResourceManager : MonoBehaviour
             //p.PriceText.text = p.Price.ToString();
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            p.CanBuy = p.Price <= _resource;
             if (p.UnitCount == 1)
             {
                 StartCoroutine(GainPerSecond(p));
@@ -106,6 +108,20 @@ public class ResourceManager : MonoBehaviour
             _resource -= price;
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+        }
+    }
+    /// <summary>
+    /// クリックのアップグレード
+    /// </summary>
+    public void UpGradeProductAndClick(string name, uint rate, BigInteger price)
+    {
+        Product p = _products.Find(p => p.Name == name);
+        if (price <= _resource)
+        {
+            _resource -= price;
+            p.ProductionRate *= rate;
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            _increaseAmountOnClick *= rate;
         }
     }
 }
