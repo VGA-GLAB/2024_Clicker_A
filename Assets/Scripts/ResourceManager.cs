@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
+    public List<Product> Products { get => _products; set => _products = value; }
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
     [SerializeField] List<Product> _products;
@@ -35,8 +36,8 @@ public class ResourceManager : MonoBehaviour
             p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
             p.Price = p.DefaultPrice;
             p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
-            //p.PriceText.text = p.PricePerUnit;
             p.ProductionRate = 1;
+            p.PriceText.text = $"{p.Name}:{p.PricePerUnit}";
         }
     }
     /// <summary>
@@ -47,9 +48,9 @@ public class ResourceManager : MonoBehaviour
     {
         while (true)
         {
-            IncreaseResource(p.ResourcePerSecond);   
+            IncreaseResource(p.ResourcePerSecond);
             yield return new WaitForSeconds(1);
-        }   
+        }
     }
     /// <summary>
     /// リソースを増やす
@@ -78,20 +79,49 @@ public class ResourceManager : MonoBehaviour
     /// <param name="name"></param>
     public void BuyProduct(string name)
     {
-        Product p = _products.Find(p => p.Name == name); 
-        if(p.CanBuy)
+        Product p = _products.Find(p => p.Name == name);
+        if (p.CanBuy)
         {
             _resource -= p.Price;
             p.UnitCount++;
             //価格を上げる
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
-            //p.PriceText.text = p.Price.ToString();
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            if(p.UnitCount == 1)
+            p.CanBuy = p.Price <= _resource;
+            if (p.UnitCount == 1)
             {
                 StartCoroutine(GainPerSecond(p));
-            }           
+            }
+            p.PriceText.text = $"{p.Name}:{p.Price}";
+        }
+    }
+    /// <summary>
+    /// 施設のアップグレード
+    /// </summary>
+    /// <param name="name"></param>
+    public void UpGradeProduct(string name, uint rate, BigInteger price)
+    {
+        Product p = _products.Find(p => p.Name == name);
+        if(price <= _resource)
+        {
+            _resource -= price;
+            p.ProductionRate *= rate;
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+        }
+    }
+    /// <summary>
+    /// クリックのアップグレード
+    /// </summary>
+    public void UpGradeProductAndClick(string name, uint rate, BigInteger price)
+    {
+        Product p = _products.Find(p => p.Name == name);
+        if (price <= _resource)
+        {
+            _resource -= price;
+            p.ProductionRate *= rate;
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            _increaseAmountOnClick *= rate;
         }
     }
 }
