@@ -44,12 +44,12 @@ public class ResourceManager : MonoBehaviour
     /// –ˆ•bƒŠƒ\[ƒX‚ğ‘‚â‚·
     /// </summary>
     /// <returns></returns>
-    IEnumerator GainPerSecond(Product p)
+    IEnumerator GainPerSecond(Product p, int interval)
     {
         while (true)
         {
             IncreaseResource(p.ResourcePerSecond);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(interval);
         }
     }
     /// <summary>
@@ -91,7 +91,10 @@ public class ResourceManager : MonoBehaviour
             p.CanBuy = p.Price <= _resource;
             if (p.UnitCount == 1)
             {
-                StartCoroutine(GainPerSecond(p));
+                if(p.Name != "Cursor")
+                StartCoroutine(GainPerSecond(p , 1));
+                else
+                StartCoroutine(GainPerSecond(p, 10));
             }
             p.PriceText.text = $"{p.Name}:{p.Price}";
         }
