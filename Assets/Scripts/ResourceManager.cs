@@ -96,7 +96,9 @@ public class ResourceManager : MonoBehaviour
                 else
                 StartCoroutine(GainPerSecond(p, 10));
             }
+            //価格とリソース量の更新
             p.PriceText.text = $"{p.Name}:{p.Price}";
+            _resourceText.text = _resource.ToString();
         }
     }
     /// <summary>
