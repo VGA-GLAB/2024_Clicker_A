@@ -28,52 +28,6 @@ public class ResourceManager : MonoBehaviour
         [Tooltip("購入可能かどうか")] public bool CanBuy;
         [Tooltip("価格を表示するテキスト")] public TextMeshProUGUI PriceText;
     }
-    //小数点以下も扱える構造体の開発中
-    [Serializable]
-    public struct BigNumber
-    {
-        public int 何桁区切りか;
-        public List<単位> NumberList;
-        public void IncreaseNumber(BigNumber number)
-        {
-            for (int i = 0; i < NumberList.Count; i++)
-            {
-                NumberList[i].Number += number.NumberList[i].Number;
-            }
-            繰り上げ();
-        }
-        void 繰り上げ()
-        {
-            for (int i = 0; i < NumberList.Count - 1; i++)
-            {
-                NumberList[i + 1].Number += (int)(NumberList[i].Number / Mathf.Pow(10, 何桁区切りか - 1));
-            }
-        }
-        void DecreaseNumber(BigNumber number)
-        {
-            for (int i = 0; i < NumberList.Count; i++)
-            {
-                NumberList[i].Number -= number.NumberList[i].Number;
-            }
-            繰り下げ();
-        }
-        void 繰り下げ()
-        {
-            for (int i = 0; i < NumberList.Count - 1; i++)
-            {
-                if(NumberList[i].Number < 0)
-                {
-                    NumberList[i].Number += (int)Mathf.Pow(10, 何桁区切りか);
-                    NumberList[i + 1].Number -= 1;
-                }
-            }
-        }
-    }
-    public class 単位
-    {
-        public string Name;
-        public int Number;
-    }
     void Start()
     {
         for (int i = 0; i < _products.Count; i++)
