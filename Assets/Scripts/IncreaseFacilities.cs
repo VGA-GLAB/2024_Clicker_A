@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class IncreaseFacilities : MonoBehaviour
 {
@@ -20,14 +16,12 @@ public class IncreaseFacilities : MonoBehaviour
     public void IncreaseProductUI(string name)
     {
         Debug.Log(name);
-        ResourceManager.Product p = _resourceManager.Products.Find(p =>  p.Name == name);
+        ResourceManager.Product p = _resourceManager.Products.Find(p => p.Name == name);
         Debug.Log(p.CanBuy);
         if (p.CanBuy)
         {
             Debug.Log("é{ê›Çí«â¡");
-            GameObject product = Instantiate(_product);
-            product.transform.SetParent(_panel.transform);
+            GameObject product = Instantiate(_product,_panel.transform);
         }
     }
-
 }
