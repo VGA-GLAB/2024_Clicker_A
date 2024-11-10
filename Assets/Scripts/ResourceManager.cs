@@ -36,8 +36,8 @@ public class ResourceManager : MonoBehaviour
             p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
             p.Price = p.DefaultPrice;
             p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
-            //p.PriceText.text = p.PricePerUnit;
             p.ProductionRate = 1;
+            p.PriceText.text = $"{p.Name}:{p.PricePerUnit}";
         }
     }
     /// <summary>
@@ -86,7 +86,6 @@ public class ResourceManager : MonoBehaviour
             p.UnitCount++;
             //âøäiÇè„Ç∞ÇÈ
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
-            //p.PriceText.text = p.Price.ToString();
             //ê∂éYë¨ìxÇçXêV
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             p.CanBuy = p.Price <= _resource;
@@ -94,6 +93,7 @@ public class ResourceManager : MonoBehaviour
             {
                 StartCoroutine(GainPerSecond(p));
             }
+            p.PriceText.text = $"{p.Name}:{p.Price}";
         }
     }
     /// <summary>
