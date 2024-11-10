@@ -239,14 +239,14 @@ MonoBehaviour:
     UnitCount: 0
     ProductionRate: 1
     CanBuy: 0
-    PriceText: {fileID: 0}
+    PriceText: {fileID: 941242044}
   - Name: GrandMother
     ProductionSpeedPerUnit: 10
     PricePerUnit: 100
     UnitCount: 0
     ProductionRate: 1
     CanBuy: 0
-    PriceText: {fileID: 0}
+    PriceText: {fileID: 196025574}
 --- !u!4 &123403622
 Transform:
   m_ObjectHideFlags: 0
@@ -643,7 +643,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GrandMother
+          m_StringArgument: Cursor
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
