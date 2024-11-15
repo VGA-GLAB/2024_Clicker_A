@@ -44,12 +44,12 @@ public class ResourceManager : MonoBehaviour
     /// 毎秒リソースを増やす
     /// </summary>
     /// <returns></returns>
-    IEnumerator GainPerSecond(Product p)
+    IEnumerator GainPerSecond(Product p, int interval)
     {
         while (true)
         {
             IncreaseResource(p.ResourcePerSecond);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(interval);
         }
     }
     /// <summary>
@@ -88,12 +88,25 @@ public class ResourceManager : MonoBehaviour
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            p.CanBuy = p.Price <= _resource;
+            UpdateCanBuy();
             if (p.UnitCount == 1)
             {
-                StartCoroutine(GainPerSecond(p));
+                if(p.Name != "Cursor")
+                StartCoroutine(GainPerSecond(p , 1));
+                else
+                StartCoroutine(GainPerSecond(p, 10));
             }
+            //価格とリソース量の更新
             p.PriceText.text = $"{p.Name}:{p.Price}";
+            _resourceText.text = _resource.ToString();
+        }
+    }
+    private void UpdateCanBuy()
+    {
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product product = _products[i];
+            product.CanBuy = product.Price <= _resource;
         }
     }
     /// <summary>
@@ -106,6 +119,7 @@ public class ResourceManager : MonoBehaviour
         if(price <= _resource)
         {
             _resource -= price;
+            UpdateCanBuy();
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
         }
@@ -119,6 +133,7 @@ public class ResourceManager : MonoBehaviour
         if (price <= _resource)
         {
             _resource -= price;
+            UpdateCanBuy();
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             _increaseAmountOnClick *= rate;
