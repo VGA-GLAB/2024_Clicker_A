@@ -199,6 +199,66 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &960527962145144584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8136617136097043079}
+  - component: {fileID: 6361883808996622944}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8136617136097043079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960527962145144584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -282.7545, y: -377.61954, z: 17.518284}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8482321678786343744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6361883808996622944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960527962145144584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65697b7e88a0d54fac4f37a9f341464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceText: {fileID: 7143429683148482343}
+  _products:
+  - Name: Cursor
+    ProductionSpeedPerUnit: 1
+    PricePerUnit: 10
+    UnitCount: 0
+    ProductionRate: 1
+    CanBuy: 0
+    PriceText: {fileID: 2946433537397902362}
+  - Name: GrandMother
+    ProductionSpeedPerUnit: 10
+    PricePerUnit: 100
+    UnitCount: 0
+    ProductionRate: 1
+    CanBuy: 0
+    PriceText: {fileID: 5420324943648514629}
 --- !u!1 &1111425815564718777
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +380,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6361883808996622944}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
         m_MethodName: IncreaseResourceOnClick
         m_Mode: 1
@@ -1091,21 +1151,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
-        m_MethodName: BuyProduct
+      - m_Target: {fileID: 5351435445306487133}
+        m_TargetAssemblyTypeName: IncreaseFacilities, Assembly-CSharp
+        m_MethodName: IncreaseProductUI
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GrandMother
+          m_StringArgument: Cursor
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5351435445306487133}
-        m_TargetAssemblyTypeName: IncreaseFacilities, Assembly-CSharp
-        m_MethodName: IncreaseProductUI
+      - m_Target: {fileID: 6361883808996622944}
+        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
+        m_MethodName: BuyProduct
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1663,7 +1723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CursorTtwice
+  m_text: CursorTwice
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1763,6 +1823,7 @@ Transform:
   m_Children:
   - {fileID: 1615227457391881454}
   - {fileID: 2804049551514919534}
+  - {fileID: 8136617136097043079}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5226850474932337439
@@ -1986,7 +2047,6 @@ GameObject:
   - component: {fileID: 2804049551514919534}
   - component: {fileID: 8866015276159384637}
   - component: {fileID: 5351435445306487133}
-  - component: {fileID: 1543213415552418665}
   m_Layer: 0
   m_Name: IncreaseFacilities
   m_TagString: Untagged
@@ -2043,23 +2103,6 @@ MonoBehaviour:
     type: 3}
   _productName: Cursor
   _productText: {fileID: 5677075656159416617}
---- !u!114 &1543213415552418665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5443539680485307858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc391ee91be17e48a15ef4f59d7c7fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _panel: {fileID: 1193205211458567372}
-  _product: {fileID: 4231433592477576150, guid: 545450463afa5f94e9d66b145f7fbf25,
-    type: 3}
-  _productName: CursorTwice
-  _productText: {fileID: 3562401823916794393}
 --- !u!1 &5767051762507156226
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,7 +3314,7 @@ MonoBehaviour:
           m_StringArgument: GrandMother
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6361883808996622944}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
         m_MethodName: BuyProduct
         m_Mode: 5
@@ -3429,6 +3472,7 @@ GameObject:
   - component: {fileID: 7869531560139397550}
   - component: {fileID: 381040750076146177}
   - component: {fileID: 5033947160757851577}
+  - component: {fileID: 5749447768574826180}
   m_Layer: 5
   m_Name: CursorTwiceButton
   m_TagString: Untagged
@@ -3538,30 +3582,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
-        m_MethodName: BuyProduct
-        m_Mode: 5
+      - m_Target: {fileID: 5749447768574826180}
+        m_TargetAssemblyTypeName: UpGrade, Assembly-CSharp
+        m_MethodName: UpGradeProductAndClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GrandMother
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5351435445306487133}
-        m_TargetAssemblyTypeName: IncreaseFacilities, Assembly-CSharp
-        m_MethodName: IncreaseProductUI
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: CursorTwice
-          m_BoolArgument: 0
-        m_CallState: 2
+--- !u!114 &5749447768574826180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693714967633094039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1ae5fd26cf04c459c8abecf5f28785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upGradeProductName: Cursor
+  _upGradeRate: 2
+  _price: 100
 --- !u!1 &8889248024644240358
 GameObject:
   m_ObjectHideFlags: 0
