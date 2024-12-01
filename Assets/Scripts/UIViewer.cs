@@ -1,8 +1,8 @@
+﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class IncreaseFacilities : MonoBehaviour
+public class UIViewer : MonoBehaviour
 {
     ResourceManager _resourceManager;
     [SerializeField] GameObject _panel;
@@ -18,7 +18,7 @@ public class IncreaseFacilities : MonoBehaviour
 
 
     /// <summary>
-    /// �{�݂�UI�𑝂₷
+    /// 施設のUIを増やす
     /// </summary>
     public void IncreaseProductUI(string name)
     {
