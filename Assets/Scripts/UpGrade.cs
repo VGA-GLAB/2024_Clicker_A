@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class UpGrade : MonoBehaviour
     [SerializeField] string _price;
     private BigInteger _updatePrice;
     ResourceManager _resourceManager;
+    public Action OnUpgrade;
     void Start()
     {
         _resourceManager = GameObject.FindAnyObjectByType<ResourceManager>();
@@ -27,7 +29,7 @@ public class UpGrade : MonoBehaviour
         if (_resourceManager.Resource >= _updatePrice)
         {
             _resourceManager.UpGradeProductAndClick(_upGradeProductName, _upGradeRate, _updatePrice);
-            Destroy(this.gameObject);
+            OnUpgrade?.Invoke();
         }
     }
 }
