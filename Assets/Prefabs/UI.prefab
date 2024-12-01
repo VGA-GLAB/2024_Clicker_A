@@ -252,6 +252,7 @@ MonoBehaviour:
     ProductionRate: 1
     CanBuy: 0
     PriceText: {fileID: 2946433537397902362}
+    ProductCountText: {fileID: 5677075656159416617}
   - Name: GrandMother
     ProductionSpeedPerUnit: 10
     PricePerUnit: 100
@@ -259,6 +260,7 @@ MonoBehaviour:
     ProductionRate: 1
     CanBuy: 0
     PriceText: {fileID: 5420324943648514629}
+    ProductCountText: {fileID: 4815241438753733561}
 --- !u!1 &1111425815564718777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,18 +1153,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5351435445306487133}
-        m_TargetAssemblyTypeName: IncreaseFacilities, Assembly-CSharp
-        m_MethodName: IncreaseProductUI
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Cursor
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 6361883808996622944}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
         m_MethodName: BuyProduct
@@ -1822,7 +1812,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1615227457391881454}
-  - {fileID: 2804049551514919534}
   - {fileID: 8136617136097043079}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2036,73 +2025,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &5443539680485307858
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2804049551514919534}
-  - component: {fileID: 8866015276159384637}
-  - component: {fileID: 5351435445306487133}
-  m_Layer: 0
-  m_Name: IncreaseFacilities
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2804049551514919534
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5443539680485307858}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8482321678786343744}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8866015276159384637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5443539680485307858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc391ee91be17e48a15ef4f59d7c7fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _panel: {fileID: 6192340303587485045}
-  _product: {fileID: 3178062969512644795, guid: 12aacb4305c719c41a93ebb914908bb9,
-    type: 3}
-  _productName: GrandMother
-  _productText: {fileID: 4815241438753733561}
---- !u!114 &5351435445306487133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5443539680485307858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc391ee91be17e48a15ef4f59d7c7fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _panel: {fileID: 6939931463854158233}
-  _product: {fileID: 5737497161702870698, guid: 018ab5df12691d048953c1e408aaea23,
-    type: 3}
-  _productName: Cursor
-  _productText: {fileID: 5677075656159416617}
 --- !u!1 &5767051762507156226
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,18 +3224,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8866015276159384637}
-        m_TargetAssemblyTypeName: IncreaseFacilities, Assembly-CSharp
-        m_MethodName: IncreaseProductUI
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: GrandMother
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 6361883808996622944}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
         m_MethodName: BuyProduct
