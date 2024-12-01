@@ -13,7 +13,6 @@ public class ResourceManager : MonoBehaviour
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
     [SerializeField] List<Product> _products;
-    public Action<string> IncreaseFacilities;
     [Serializable]
     public class Product
     {
