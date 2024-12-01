@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -13,20 +13,22 @@ public class ResourceManager : MonoBehaviour
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
     [SerializeField] List<Product> _products;
+    public Action<string> IncreaseFacilities;
     [Serializable]
     public class Product
     {
-        [Tooltip("{İ–¼")] public string Name;
-        [Tooltip("1{İ“–‚½‚è‚Ì¶Y‘¬“x")] public string ProductionSpeedPerUnit;
-        [Tooltip("{İ‚Ì‰Šú‰¿Ši")] public string PricePerUnit;
-        [Tooltip("{İ‚ÌŒÂ”")] public int UnitCount;
-        [Tooltip("1{İ“–‚½‚è‚Ì¶Y‘¬“x")] public BigInteger ProductionPerSecond;
-        [Tooltip("{İ‚Ì‰Šú‰¿Ši")] public BigInteger DefaultPrice;
-        [Tooltip("{İ‚Ì‰¿Ši")] public BigInteger Price;
-        [Tooltip("{İ‚Ì¶Y”{—¦")] public ulong ProductionRate;
-        [Tooltip("{İ‘S‘Ì‚Ì¶Y‘¬“x")] public BigInteger ResourcePerSecond;
-        [Tooltip("w“ü‰Â”\‚©‚Ç‚¤‚©")] public bool CanBuy;
-        [Tooltip("‰¿Ši‚ğ•\¦‚·‚éƒeƒLƒXƒg")] public TextMeshProUGUI PriceText;
+        [Tooltip("æ–½è¨­å")] public string Name;
+        [Tooltip("1æ–½è¨­å½“ãŸã‚Šã®ç”Ÿç”£é€Ÿåº¦")] public string ProductionSpeedPerUnit;
+        [Tooltip("æ–½è¨­ã®åˆæœŸä¾¡æ ¼")] public string PricePerUnit;
+        [Tooltip("æ–½è¨­ã®å€‹æ•°")] public int UnitCount;
+        [Tooltip("1æ–½è¨­å½“ãŸã‚Šã®ç”Ÿç”£é€Ÿåº¦")] public BigInteger ProductionPerSecond;
+        [Tooltip("æ–½è¨­ã®åˆæœŸä¾¡æ ¼")] public BigInteger DefaultPrice;
+        [Tooltip("æ–½è¨­ã®ä¾¡æ ¼")] public BigInteger Price;
+        [Tooltip("æ–½è¨­ã®ç”Ÿç”£å€ç‡")] public ulong ProductionRate;
+        [Tooltip("æ–½è¨­å…¨ä½“ã®ç”Ÿç”£é€Ÿåº¦")] public BigInteger ResourcePerSecond;
+        [Tooltip("è³¼å…¥å¯èƒ½ã‹ã©ã†ã‹")] public bool CanBuy;
+        [Tooltip("ä¾¡æ ¼ã‚’è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ")] public TextMeshProUGUI PriceText;
+        [Tooltip("æ–½è¨­ã®å€‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ")] public TextMeshProUGUI ProductCountText;
     }
     void Start()
     {
@@ -38,10 +40,11 @@ public class ResourceManager : MonoBehaviour
             p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
             p.ProductionRate = 1;
             p.PriceText.text = $"{p.Name}:{p.PricePerUnit}";
+            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
         }
     }
     /// <summary>
-    /// –ˆ•bƒŠƒ\[ƒX‚ğ‘‚â‚·
+    /// æ¯ç§’ãƒªã‚½ãƒ¼ã‚¹ã‚’å¢—ã‚„ã™
     /// </summary>
     /// <returns></returns>
     IEnumerator GainPerSecond(Product p, int interval)
@@ -53,7 +56,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// ƒŠƒ\[ƒX‚ğ‘‚â‚·
+    /// ãƒªã‚½ãƒ¼ã‚¹ã‚’å¢—ã‚„ã™
     /// </summary>
     /// <param name="resource"></param>
     void IncreaseResource(BigInteger resource)
@@ -67,14 +70,14 @@ public class ResourceManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// ƒNƒŠƒbƒN‚ÉƒŠƒ\[ƒX‚ğ‘‚â‚·
+    /// ã‚¯ãƒªãƒƒã‚¯æ™‚ã«ãƒªã‚½ãƒ¼ã‚¹ã‚’å¢—ã‚„ã™
     /// </summary>
     public void IncreaseResourceOnClick()
     {
         IncreaseResource(_increaseAmountOnClick);
     }
     /// <summary>
-    /// {İ‚Ìw“ü
+    /// æ–½è¨­ã®è³¼å…¥
     /// </summary>
     /// <param name="name"></param>
     public void BuyProduct(string name)
@@ -84,9 +87,9 @@ public class ResourceManager : MonoBehaviour
         {
             _resource -= p.Price;
             p.UnitCount++;
-            //‰¿Ši‚ğã‚°‚é
+            //ä¾¡æ ¼ã‚’ä¸Šã’ã‚‹
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
-            //¶Y‘¬“x‚ğXV
+            //ç”Ÿç”£é€Ÿåº¦ã‚’æ›´æ–°
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             UpdateCanBuy();
             if (p.UnitCount == 1)
@@ -96,9 +99,10 @@ public class ResourceManager : MonoBehaviour
                 else
                 StartCoroutine(GainPerSecond(p, 10));
             }
-            //‰¿Ši‚ÆƒŠƒ\[ƒX—Ê‚ÌXV
+            //ä¾¡æ ¼ã¨ãƒªã‚½ãƒ¼ã‚¹é‡ã®æ›´æ–°
             p.PriceText.text = $"{p.Name}:{p.Price}";
             _resourceText.text = _resource.ToString();
+            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
         }
     }
     private void UpdateCanBuy()
@@ -110,7 +114,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// {İ‚ÌƒAƒbƒvƒOƒŒ[ƒh
+    /// æ–½è¨­ã®ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰
     /// </summary>
     /// <param name="name"></param>
     public void UpGradeProduct(string name, uint rate, BigInteger price)
@@ -123,12 +127,12 @@ public class ResourceManager : MonoBehaviour
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
 
-            // Fix: UpGradew“ü‚ÉƒŠƒ\[ƒX•\¦‚ªXV‚³‚ê‚Ä‚¢‚È‚¢•s‹ï‡‚ğC³B
+            // Fix: UpGradeè³¼å…¥æ™‚ã«ãƒªã‚½ãƒ¼ã‚¹è¡¨ç¤ºãŒæ›´æ–°ã•ã‚Œã¦ã„ãªã„ä¸å…·åˆã‚’ä¿®æ­£ã€‚
             _resourceText.text = _resource.ToString();
         }
     }
     /// <summary>
-    /// ƒNƒŠƒbƒN‚ÌƒAƒbƒvƒOƒŒ[ƒh
+    /// ã‚¯ãƒªãƒƒã‚¯ã®ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰
     /// </summary>
     public void UpGradeProductAndClick(string name, uint rate, BigInteger price)
     {
@@ -141,7 +145,7 @@ public class ResourceManager : MonoBehaviour
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             _increaseAmountOnClick *= rate;
 
-            // Fix: UpGradew“ü‚ÉƒŠƒ\[ƒX•\¦‚ªXV‚³‚ê‚Ä‚¢‚È‚¢•s‹ï‡‚ğC³B
+            // Fix: UpGradeè³¼å…¥æ™‚ã«ãƒªã‚½ãƒ¼ã‚¹è¡¨ç¤ºãŒæ›´æ–°ã•ã‚Œã¦ã„ãªã„ä¸å…·åˆã‚’ä¿®æ­£ã€‚
             _resourceText.text = _resource.ToString();
         }
     }
