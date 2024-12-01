@@ -122,6 +122,9 @@ public class ResourceManager : MonoBehaviour
             UpdateCanBuy();
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+
+            // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
+            _resourceText.text = _resource.ToString();
         }
     }
     /// <summary>
@@ -137,6 +140,9 @@ public class ResourceManager : MonoBehaviour
             p.ProductionRate *= rate;
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             _increaseAmountOnClick *= rate;
+
+            // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
+            _resourceText.text = _resource.ToString();
         }
     }
 }
