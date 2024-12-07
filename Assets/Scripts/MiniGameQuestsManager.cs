@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class MiniGameQuestsManager : MonoBehaviour
 {
     [SerializeField] private List<BossParameter> _bossParameters;
     [SerializeField] private TextMeshProUGUI _timerText;
+    [SerializeField] private TextMeshProUGUI _clickPowerText;
     [SerializeField] private Image _hpGauge;
     /// <summary>
     /// ダメージポップアップ
@@ -20,8 +20,8 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// ダメージテキストの表示時間
     /// </summary>
     [SerializeField] private int _textLifeTime;
-    private int _currentHP;
-    private float _timeLimit;
+    private float _currentHP;
+    [SerializeField] private float _timeLimit;
     /// <summary>
     /// クリックで与えた総ダメージ
     /// </summary>
@@ -40,8 +40,8 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// リザルトを表示するパネル
     /// </summary>
     [SerializeField] GameObject _resultPanel;
-
-
+    
+    [CreateAssetMenu(menuName = "ScriptableObject/BossParameter")]
     public class BossParameter : ScriptableObject
     {
         [Header("ボスのID")] public int Id;
@@ -53,6 +53,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         _resultPanel.SetActive(false);
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
+        _clickPowerText.text = _clickDamage.ToString();
     }
 
     private void Update()
@@ -65,6 +66,12 @@ public class MiniGameQuestsManager : MonoBehaviour
         {
             _resultPanel.SetActive(true);
         }
+
+        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log(_currentBossId);
+            Debug.Log(_currentHP);
+        }//デバック用
     }
 
     /// <summary>
@@ -76,8 +83,9 @@ public class MiniGameQuestsManager : MonoBehaviour
         _damageTotal += _clickDamage;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
+        BossHP();
         TextMeshProUGUI text = Instantiate(_damegeText, mousePos, Quaternion.identity);//クリックした場所にテキストを表示
-        StartCoroutine(DestroyTextAfterTime(text, _textLifeTime));//上で表示したテキストを_textLifeTime秒後に消す　
+        StartCoroutine(DestroyTextAfterTime(text, _textLifeTime));//上で表示したテキストを_textLifeTime秒後に消す
     }
 
     private void Timer()
@@ -89,11 +97,18 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// <summary>
     /// ボスのHP表示を更新する処理
     /// </summary>
-    /// <param name="n"></param>
-    private void BossHP(int n)
+    private void BossHP()
     {
         BossParameter b = _bossParameters.Find(b => b.Id == _currentBossId);
         _hpGauge.fillAmount = _currentHP / b.BossMaxHP;
+    }
+
+    /// <summary>
+    /// クリックレベルアップ
+    /// </summary>
+    private void LevelUp()
+    {
+        _clickPowerText.text = _clickDamage.ToString();
     }
 
     /// <summary>
