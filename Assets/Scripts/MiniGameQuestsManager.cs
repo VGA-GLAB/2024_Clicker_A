@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -12,6 +13,8 @@ public class MiniGameQuestsManager : MonoBehaviour
     [SerializeField] private List<BossParameter> _bossParameters;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _clickPowerText;
+    [Header("リザルトで表示するボスの最終HP"), SerializeField] private TextMeshProUGUI _resultHP;
+    [Header("リザルトで表示する評価"), SerializeField] private TextMeshProUGUI _resultScore;
     [SerializeField] private Image _hpGauge;
     [SerializeField] private Canvas _canvas;
     /// <summary>
@@ -42,7 +45,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// リザルトを表示するパネル
     /// </summary>
     [SerializeField] GameObject _resultPanel;
-    
+
     [CreateAssetMenu(menuName = "ScriptableObject/BossParameter")]
     public class BossParameter : ScriptableObject
     {
@@ -60,15 +63,7 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     private void Update()
     {
-        if (_timeLimit > 0)
-        {
-            Timer();
-        }
-        else
-        {
-            _resultPanel.SetActive(true);
-        }
-
+        Timer();
         if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log(_currentBossId);
@@ -87,20 +82,28 @@ public class MiniGameQuestsManager : MonoBehaviour
         Vector2 localPosition;
         BossHP();
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                _canvas.GetComponent<RectTransform>(),mousePos,
+                _canvas.GetComponent<RectTransform>(), mousePos,
                 _canvas.worldCamera,
                 out localPosition
             );//mousePosをローカルポジションに直す
         TextMeshProUGUI text = Instantiate(_damegeText, _canvas.transform).GetComponent<TextMeshProUGUI>();//クリックした場所にテキストを表示
         text.transform.localPosition = localPosition;
         text.text = _clickDamage.ToString();
-        StartCoroutine(DestroyTextAfterTime(text, _textLifeTime));//上で表示したテキストを_textLifeTime秒後に消す
     }
 
     private void Timer()
     {
-        _timeLimit -= Time.deltaTime;
-        _timerText.text = _timeLimit.ToString("0.00");
+        if (_timeLimit > 0)
+        {
+            _timeLimit -= Time.deltaTime;
+            _timerText.text = _timeLimit.ToString("0.00");
+        }
+        else
+        {
+            _resultPanel.SetActive(true);
+            _resultHP.text = $"BossHP : {_currentHP.ToString("00000000")}";
+            _resultScore.text = $"Score : {ResultScore()}";
+        }//リザルトの表示
     }
 
     /// <summary>
@@ -120,12 +123,17 @@ public class MiniGameQuestsManager : MonoBehaviour
         _clickPowerText.text = _clickDamage.ToString();
     }
 
-    /// <summary>
-    /// 数秒後にテキストを消す処理
-    /// </summary>
-    private IEnumerator DestroyTextAfterTime(TextMeshProUGUI textObject, float time)
+    private string ResultScore()
     {
-        yield return new WaitForSeconds(time);
-        Destroy(textObject.gameObject);  // テキストを削除
+        string score = _currentHP switch
+        {
+            float i when _currentHP < -1000000 => "SSS",
+            float i when _currentHP < -100000 => "SS",
+            float i when _currentHP < -10000 => "S",
+            float i when _currentHP < -1000 => "A",
+            float i when _currentHP < -1 => "B",
+            _ => "C"
+        };
+        return score;
     }
 }
