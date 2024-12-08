@@ -31,15 +31,16 @@ public class ResourceManager : MonoBehaviour
     }
     void Start()
     {
-        for (int i = 0; i < _products.Count; i++)
+        Load();
+        StartCoroutine(AutoSave());
+    }
+    IEnumerator AutoSave()
+    {
+        while (true)
         {
-            Product p = _products[i];
-            p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
-            p.Price = p.DefaultPrice;
-            p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
-            p.ProductionRate = 1;
-            p.PriceText.text = $"{p.Name}:{p.PricePerUnit}";
-            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            Save();
+            Debug.Log("セーブしました");
+            yield return new WaitForSeconds(10);
         }
     }
     /// <summary>
@@ -62,11 +63,7 @@ public class ResourceManager : MonoBehaviour
     {
         _resource += resource;
         _resourceText.text = _resource.ToString();
-        for (int i = 0; i < _products.Count; i++)
-        {
-            Product p = _products[i];
-            p.CanBuy = p.Price <= _resource;
-        }
+        UpdateCanBuy();
     }
     /// <summary>
     /// クリック時にリソースを増やす
@@ -147,5 +144,46 @@ public class ResourceManager : MonoBehaviour
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
             _resourceText.text = _resource.ToString();
         }
+    }
+    public void Save()
+    {
+        PlayerPrefs.SetString("Resource",_resource.ToString());
+        PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            PlayerPrefs.SetInt($"{p.Name}UnitCount",p.UnitCount);
+            PlayerPrefs.SetString($"{p.Name}ProductionRate",p.ProductionRate.ToString());
+        }
+        PlayerPrefs.Save();
+    }
+    public void Load()
+    {
+        _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource","0"));
+        _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick","1"));
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            p.UnitCount = PlayerPrefs.GetInt($"{p.Name}UnitCount",0);
+            p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
+            p.ProductionRate = ulong.Parse(PlayerPrefs.GetString($"{p.Name}ProductionRate","1"));
+            p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
+            //価格を上げる
+            p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
+            //生産速度を更新
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            if (p.UnitCount >= 1)
+            {
+                if (p.Name != "Cursor")
+                    StartCoroutine(GainPerSecond(p, 1));
+                else
+                    StartCoroutine(GainPerSecond(p, 10));
+            }
+            //価格とリソース量の更新
+            p.PriceText.text = $"{p.Name}:{p.Price}";
+            _resourceText.text = _resource.ToString();
+            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+        }
+        UpdateCanBuy();
     }
 }
