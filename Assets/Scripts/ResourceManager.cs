@@ -8,10 +8,12 @@ using TMPro;
 public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
+    private BigInteger _allResource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
     public List<Product> Products { get => _products; set => _products = value; }
     private BigInteger _increaseAmountOnClick = 1;
     [SerializeField] TextMeshProUGUI _resourceText;
+    [SerializeField] TextMeshProUGUI _allResourceText;
     [SerializeField] List<Product> _products;
     [Serializable]
     public class Product
@@ -62,6 +64,8 @@ public class ResourceManager : MonoBehaviour
     void IncreaseResource(BigInteger resource)
     {
         _resource += resource;
+        _allResource += resource;
+        _allResourceText.text = $"合計生産魔力:{_allResource}";
         _resourceText.text = _resource.ToString();
         UpdateCanBuy();
     }
@@ -148,6 +152,7 @@ public class ResourceManager : MonoBehaviour
     public void Save()
     {
         PlayerPrefs.SetString("Resource", _resource.ToString());
+        PlayerPrefs.SetString("AllResource",_allResource.ToString());
         PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
         for (int i = 0; i < _products.Count; i++)
         {
@@ -159,7 +164,9 @@ public class ResourceManager : MonoBehaviour
     }
     public void Load()
     {
+        StopAllCoroutines();
         _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
+        _allResource = BigInteger.Parse(PlayerPrefs.GetString("AllResource","0"));
         _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
         for (int i = 0; i < _products.Count; i++)
         {
@@ -189,6 +196,7 @@ public class ResourceManager : MonoBehaviour
     public void ResetSaveData()
     {
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetString("AllResource", _allResource.ToString());
         Start();
         UpgradeManager upgradeManager = FindAnyObjectByType<UpgradeManager>();
         upgradeManager.ReStart();
