@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -13,6 +9,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     [SerializeField] private List<BossParameter> _bossParameters;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _clickPowerText;
+    [Header("ミニゲームで得た報酬を表示するテキスト"),SerializeField] private TextMeshProUGUI _rewardText;
     [Header("リザルトで表示するボスの最終HP"), SerializeField] private TextMeshProUGUI _resultHP;
     [Header("リザルトで表示する評価"), SerializeField] private TextMeshProUGUI _resultScore;
     [SerializeField] private Image _hpGauge;
@@ -58,7 +55,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         _resultPanel.SetActive(false);
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
-        _clickPowerText.text = _clickDamage.ToString();
+        _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
     }
 
     private void Update()
@@ -103,6 +100,7 @@ public class MiniGameQuestsManager : MonoBehaviour
             _resultPanel.SetActive(true);
             _resultHP.text = $"BossHP : {_currentHP.ToString("00000000")}";
             _resultScore.text = $"Score : {ResultScore()}";
+            _rewardText.text = $"Get : {0}";
         }//リザルトの表示
     }
 
@@ -123,6 +121,9 @@ public class MiniGameQuestsManager : MonoBehaviour
         _clickPowerText.text = _clickDamage.ToString();
     }
 
+    /// <summary>
+    /// リザルトに表示する評価を判定
+    /// </summary>
     private string ResultScore()
     {
         string score = _currentHP switch
