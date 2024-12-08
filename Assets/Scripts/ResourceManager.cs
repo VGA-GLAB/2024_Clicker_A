@@ -90,10 +90,10 @@ public class ResourceManager : MonoBehaviour
             UpdateCanBuy();
             if (p.UnitCount == 1)
             {
-                if(p.Name != "Cursor")
-                StartCoroutine(GainPerSecond(p , 1));
+                if (p.Name != "Cursor")
+                    StartCoroutine(GainPerSecond(p, 1));
                 else
-                StartCoroutine(GainPerSecond(p, 10));
+                    StartCoroutine(GainPerSecond(p, 10));
             }
             //価格とリソース量の更新
             p.PriceText.text = $"{p.Name}:{p.Price}";
@@ -116,7 +116,7 @@ public class ResourceManager : MonoBehaviour
     public void UpGradeProduct(string name, uint rate, BigInteger price)
     {
         Product p = _products.Find(p => p.Name == name);
-        if(price <= _resource)
+        if (price <= _resource)
         {
             _resource -= price;
             UpdateCanBuy();
@@ -147,26 +147,26 @@ public class ResourceManager : MonoBehaviour
     }
     public void Save()
     {
-        PlayerPrefs.SetString("Resource",_resource.ToString());
+        PlayerPrefs.SetString("Resource", _resource.ToString());
         PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
         for (int i = 0; i < _products.Count; i++)
         {
             Product p = _products[i];
-            PlayerPrefs.SetInt($"{p.Name}UnitCount",p.UnitCount);
-            PlayerPrefs.SetString($"{p.Name}ProductionRate",p.ProductionRate.ToString());
+            PlayerPrefs.SetInt($"{p.Name}UnitCount", p.UnitCount);
+            PlayerPrefs.SetString($"{p.Name}ProductionRate", p.ProductionRate.ToString());
         }
         PlayerPrefs.Save();
     }
     public void Load()
     {
-        _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource","0"));
-        _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick","1"));
+        _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
+        _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
         for (int i = 0; i < _products.Count; i++)
         {
             Product p = _products[i];
-            p.UnitCount = PlayerPrefs.GetInt($"{p.Name}UnitCount",0);
+            p.UnitCount = PlayerPrefs.GetInt($"{p.Name}UnitCount", 0);
             p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
-            p.ProductionRate = ulong.Parse(PlayerPrefs.GetString($"{p.Name}ProductionRate","1"));
+            p.ProductionRate = ulong.Parse(PlayerPrefs.GetString($"{p.Name}ProductionRate", "1"));
             p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
             //価格を上げる
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
