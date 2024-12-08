@@ -9,6 +9,7 @@ public class UpgradeManager : MonoBehaviour
     List<UpGrade> _afterUpgradeArray = new List<UpGrade>();
     void Start()
     {
+        _afterUpgradeArray.Clear();
         _beforeUpgradeArray = FindObjectsByType<UpGrade>(FindObjectsSortMode.None).ToList();
         for (int i = 0; i < _beforeUpgradeArray.Count; i++)
         {
@@ -25,5 +26,9 @@ public class UpgradeManager : MonoBehaviour
                 component.OnUpgrade.Invoke();
             }
         }
+    }
+    public void ReStart()
+    {
+        Start();
     }
 }

@@ -40,7 +40,7 @@ public class ResourceManager : MonoBehaviour
         {
             Save();
             Debug.Log("セーブしました");
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(60);
         }
     }
     /// <summary>
@@ -185,5 +185,12 @@ public class ResourceManager : MonoBehaviour
             p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
         }
         UpdateCanBuy();
+    }
+    public void ResetSaveData()
+    {
+        PlayerPrefs.DeleteAll();
+        Start();
+        UpgradeManager upgradeManager = FindAnyObjectByType<UpgradeManager>();
+        upgradeManager.ReStart();
     }
 }
