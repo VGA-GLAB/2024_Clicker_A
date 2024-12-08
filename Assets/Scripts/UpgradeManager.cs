@@ -26,9 +26,4 @@ public class UpgradeManager : MonoBehaviour
             }
         }
     }
-
-    void Update()
-    {
-
-    }
 }
