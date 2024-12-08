@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -12,10 +13,11 @@ public class MiniGameQuestsManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _clickPowerText;
     [SerializeField] private Image _hpGauge;
+    [SerializeField] private Canvas _canvas;
     /// <summary>
     /// ダメージポップアップ
     /// </summary>
-    [SerializeField] private TextMeshProUGUI _damegeText;
+    [SerializeField] private GameObject _damegeText;
     /// <summary>
     /// ダメージテキストの表示時間
     /// </summary>
@@ -81,10 +83,17 @@ public class MiniGameQuestsManager : MonoBehaviour
     {
         _currentHP -= _clickDamage;
         _damageTotal += _clickDamage;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 localPosition;
         BossHP();
-        TextMeshProUGUI text = Instantiate(_damegeText, mousePos, Quaternion.identity);//クリックした場所にテキストを表示
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _canvas.GetComponent<RectTransform>(),mousePos,
+                _canvas.worldCamera,
+                out localPosition
+            );//mousePosをローカルポジションに直す
+        TextMeshProUGUI text = Instantiate(_damegeText, _canvas.transform).GetComponent<TextMeshProUGUI>();//クリックした場所にテキストを表示
+        text.transform.localPosition = localPosition;
+        text.text = _clickDamage.ToString();
         StartCoroutine(DestroyTextAfterTime(text, _textLifeTime));//上で表示したテキストを_textLifeTime秒後に消す
     }
 
@@ -117,6 +126,6 @@ public class MiniGameQuestsManager : MonoBehaviour
     private IEnumerator DestroyTextAfterTime(TextMeshProUGUI textObject, float time)
     {
         yield return new WaitForSeconds(time);
-        Destroy(textObject);  // テキストを削除
+        Destroy(textObject.gameObject);  // テキストを削除
     }
 }
