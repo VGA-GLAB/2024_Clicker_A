@@ -23,7 +23,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// </summary>
     [SerializeField] private int _textLifeTime;
     private float _currentHP;
-    [SerializeField] private float _timeLimit;
+    public float TimeLimit;
     /// <summary>
     /// クリックで与えた総ダメージ
     /// </summary>
@@ -90,10 +90,10 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     private void Timer()
     {
-        if (_timeLimit > 0)
+        if (TimeLimit > 0)
         {
-            _timeLimit -= Time.deltaTime;
-            _timerText.text = _timeLimit.ToString("0.00");
+            TimeLimit -= Time.deltaTime;
+            _timerText.text = TimeLimit.ToString("0.00");
         }
         else
         {
