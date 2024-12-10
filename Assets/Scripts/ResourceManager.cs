@@ -8,10 +8,17 @@ using TMPro;
 public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
+    private BigInteger _allResource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
     public List<Product> Products { get => _products; set => _products = value; }
+    private BigInteger _cookiePerSecond = 0;
     private BigInteger _increaseAmountOnClick = 1;
+    private int _clickBuff = 1;
+    private int _productBuff = 100;
     [SerializeField] TextMeshProUGUI _resourceText;
+    [SerializeField] TextMeshProUGUI _allResourceText;
+    [SerializeField] TextMeshProUGUI _productionEfficiencyText;
+    [SerializeField] TextMeshProUGUI _cookiePerSecondText;
     [SerializeField] List<Product> _products;
     [Serializable]
     public class Product
@@ -31,16 +38,52 @@ public class ResourceManager : MonoBehaviour
     }
     void Start()
     {
-        for (int i = 0; i < _products.Count; i++)
+        Load();
+        StartCoroutine(AutoSave());
+    }
+    IEnumerator AutoSave()
+    {
+        while (true)
         {
-            Product p = _products[i];
-            p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
-            p.Price = p.DefaultPrice;
-            p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
-            p.ProductionRate = 1;
-            p.PriceText.text = $"{p.Name}:{p.PricePerUnit}";
-            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            Save();
+            Debug.Log("セーブしました");
+            yield return new WaitForSeconds(60);
         }
+    }
+    public void GoldenCookie()
+    {
+        int n = UnityEngine.Random.Range(0, 100);
+        if(n < 5)
+        {
+            StartCoroutine(BuffTime(777,20));
+        }//5%の確率で20秒魔力生産量が777倍
+        else if(n < 20)
+        {
+            StartCoroutine(ClickBuffTime(100, 30));
+        }//15%の確率で30秒クリックの生産量が100倍
+        else if(n < 50)
+        {
+            IncreaseResource(_resource * 2 / 10);
+        }//30%の確率で所持魔力の20%を即座に獲得
+        else
+        {
+            StartCoroutine(BuffTime(7, 60));
+        }//50%の確率で1分魔力生産量が7倍
+
+    }
+    IEnumerator ClickBuffTime(int rate,int time)
+    {
+        _clickBuff *= rate;
+        yield return new WaitForSeconds(time);
+        _clickBuff /= rate;
+    }
+    IEnumerator BuffTime(int rate, int time)
+    {
+        _productBuff *= rate;
+        _productionEfficiencyText.text = _productBuff.ToString();
+        yield return new WaitForSeconds(time);
+        _productBuff /= rate;
+        _productionEfficiencyText.text = _productBuff.ToString();
     }
     /// <summary>
     /// 毎秒リソースを増やす
@@ -50,7 +93,7 @@ public class ResourceManager : MonoBehaviour
     {
         while (true)
         {
-            IncreaseResource(p.ResourcePerSecond);
+            IncreaseResource(p.ResourcePerSecond * _productBuff / 100);
             yield return new WaitForSeconds(interval);
         }
     }
@@ -61,19 +104,17 @@ public class ResourceManager : MonoBehaviour
     void IncreaseResource(BigInteger resource)
     {
         _resource += resource;
+        _allResource += resource;
+        _allResourceText.text = $"合計生産魔力:{_allResource}";
         _resourceText.text = _resource.ToString();
-        for (int i = 0; i < _products.Count; i++)
-        {
-            Product p = _products[i];
-            p.CanBuy = p.Price <= _resource;
-        }
+        UpdateCanBuy();
     }
     /// <summary>
     /// クリック時にリソースを増やす
     /// </summary>
     public void IncreaseResourceOnClick()
     {
-        IncreaseResource(_increaseAmountOnClick);
+        IncreaseResource(_increaseAmountOnClick * _clickBuff * _productBuff / 100);
     }
     /// <summary>
     /// 施設の購入
@@ -93,10 +134,10 @@ public class ResourceManager : MonoBehaviour
             UpdateCanBuy();
             if (p.UnitCount == 1)
             {
-                if(p.Name != "Cursor")
-                StartCoroutine(GainPerSecond(p , 1));
+                if (p.Name != "Cursor")
+                    StartCoroutine(GainPerSecond(p, 1));
                 else
-                StartCoroutine(GainPerSecond(p, 10));
+                    StartCoroutine(GainPerSecond(p, 10));
             }
             //価格とリソース量の更新
             p.PriceText.text = $"{p.Name}:{p.Price}";
@@ -119,7 +160,7 @@ public class ResourceManager : MonoBehaviour
     public void UpGradeProduct(string name, uint rate, BigInteger price)
     {
         Product p = _products.Find(p => p.Name == name);
-        if(price <= _resource)
+        if (price <= _resource)
         {
             _resource -= price;
             UpdateCanBuy();
@@ -147,5 +188,60 @@ public class ResourceManager : MonoBehaviour
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
             _resourceText.text = _resource.ToString();
         }
+    }
+    public void Save()
+    {
+        PlayerPrefs.SetString("Resource", _resource.ToString());
+        PlayerPrefs.SetString("AllResource", _allResource.ToString());
+        PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            PlayerPrefs.SetInt($"{p.Name}UnitCount", p.UnitCount);
+            PlayerPrefs.SetString($"{p.Name}ProductionRate", p.ProductionRate.ToString());
+        }
+        PlayerPrefs.Save();
+    }
+    public void Load()
+    {
+        StopAllCoroutines();
+        _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
+        _allResource = BigInteger.Parse(PlayerPrefs.GetString("AllResource", "0"));
+        _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
+        for (int i = 0; i < _products.Count; i++)
+        {
+            Product p = _products[i];
+            p.UnitCount = PlayerPrefs.GetInt($"{p.Name}UnitCount", 0);
+            p.DefaultPrice = BigInteger.Parse(p.PricePerUnit);
+            p.ProductionRate = ulong.Parse(PlayerPrefs.GetString($"{p.Name}ProductionRate", "1"));
+            p.ProductionPerSecond = BigInteger.Parse(p.ProductionSpeedPerUnit);
+            //価格を上げる
+            p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
+            //生産速度を更新
+            p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            if (p.UnitCount >= 1)
+            {
+                if (p.Name != "Cursor")
+                    StartCoroutine(GainPerSecond(p, 1));
+                else
+                    StartCoroutine(GainPerSecond(p, 10));
+            }
+            //価格とリソース量の更新
+            p.PriceText.text = $"{p.Name}:{p.Price}";
+            _resourceText.text = _resource.ToString();
+            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            _clickBuff = 1;
+            _productBuff = 100;
+            _productionEfficiencyText.text = _productBuff.ToString();
+        }
+        UpdateCanBuy();
+    }
+    public void ResetSaveData()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetString("AllResource", _allResource.ToString());
+        Start();
+        UpgradeManager upgradeManager = FindAnyObjectByType<UpgradeManager>();
+        upgradeManager.ReStart();
     }
 }
