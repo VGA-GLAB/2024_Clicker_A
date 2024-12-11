@@ -46,6 +46,8 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     List<GameObject> _devilList;
 
+    private bool _isTimeStop = false;
+
     [CreateAssetMenu(menuName = "ScriptableObject/BossParameter")]
     public class BossParameter : ScriptableObject
     {
@@ -104,7 +106,10 @@ public class MiniGameQuestsManager : MonoBehaviour
         if (TimeLimit > 0)
         {
             TimeLimit -= Time.deltaTime;
-            _timerText.text = TimeLimit.ToString("0.00");
+            if (!_isTimeStop)
+            {
+                _timerText.text = TimeLimit.ToString("0.00");
+            }
         }
         else
         {
@@ -139,11 +144,11 @@ public class MiniGameQuestsManager : MonoBehaviour
     {
         string score = _currentHP switch
         {
-            float i when _currentHP < -1000000 => "SSS",
-            float i when _currentHP < -100000 => "SS",
-            float i when _currentHP < -10000 => "S",
-            float i when _currentHP < -1000 => "A",
-            float i when _currentHP < -1 => "B",
+            < -1000000 => "SSS",
+            < -100000 => "SS",
+            < -10000 => "S",
+            < -1000 => "A",
+            < -1 => "B",
             _ => "C"
         };
         return score;
@@ -151,8 +156,21 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     IEnumerator AutoDamage()
     {
-        Debug.Log("A");
-        yield return new WaitForSeconds(1);
-        StartCoroutine(AutoDamage());
+        while (TimeLimit >= 0)
+        {
+            yield return new WaitForSeconds(1);
+            _currentHP -= _autoDamage;
+            _damageTotal += _autoDamage;
+            BossHP();
+        }
+    }
+
+    /// <summary>
+    /// ボタンに数字を設定し使い魔のスキルとボタンを紐づける
+    /// </summary>
+    /// <param buttonNumber="n"></param>
+    public void Skill(int n)
+    {
+
     }
 }

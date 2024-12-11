@@ -29,7 +29,7 @@ public class SkillButton : MonoBehaviour
     }
 
     public void ButtonDelete()
-    {        
+    {
         this.enabled = false;
     }
 
@@ -39,30 +39,31 @@ public class SkillButton : MonoBehaviour
     /// <returns></returns>
     IEnumerator ButtonEnabled()
     {
-        foreach (var button in _skillBottons)
+        while (_gameQuestsManager.TimeLimit > 0)
         {
-            button.enabled = false;
-            button.image.color = Color.gray;
-        }
-
-        foreach (var button in _skillBottons)
-        {
-            var number = Random.Range(1, 10);
-            if (number == 1)
+            foreach (var button in _skillBottons)
             {
-                button.enabled = true;
-                button.image.color = Color.red;
+                button.enabled = false;
+                button.image.color = Color.gray;
             }
+
+            foreach (var button in _skillBottons)
+            {
+                var number = Random.Range(1, 10);
+                if (number == 1)
+                {
+                    button.enabled = true;
+                    button.image.color = Color.red;
+                }
+            }
+
+            if (_gameQuestsManager.TimeLimit <= 0)
+            {
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1f);
         }
-
-        if (_gameQuestsManager.TimeLimit <= 0)
-        {
-            yield break;
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(ButtonEnabled());
     }
 }
 
