@@ -7,6 +7,8 @@ public class UpGrade : MonoBehaviour
     [SerializeField] string _upGradeProductName;
     [SerializeField] uint _upGradeRate;
     [SerializeField] string _price;
+    public string UpGradeProductName => _upGradeProductName;
+    public uint UpGradeRate => _upGradeRate;
     private BigInteger _updatePrice;
     ResourceManager _resourceManager;
     public Action OnUpgrade;
@@ -21,7 +23,7 @@ public class UpGrade : MonoBehaviour
         if (_resourceManager.Resource >= _updatePrice)
         {
             _resourceManager.UpGradeProduct(_upGradeProductName, _upGradeRate, _updatePrice);
-            Destroy(this.gameObject);
+            OnUpgrade?.Invoke();
         }
     }
     public void UpGradeProductAndClick()
