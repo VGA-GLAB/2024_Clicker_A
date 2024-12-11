@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     [SerializeField] private List<BossParameter> _bossParameters;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _clickPowerText;
-    [Header("ミニゲームで得た報酬を表示するテキスト"),SerializeField] private TextMeshProUGUI _rewardText;
+    [Header("ミニゲームで得た報酬を表示するテキスト"), SerializeField] private TextMeshProUGUI _rewardText;
     [Header("リザルトで表示するボスの最終HP"), SerializeField] private TextMeshProUGUI _resultHP;
     [Header("リザルトで表示する評価"), SerializeField] private TextMeshProUGUI _resultScore;
     [SerializeField] private Image _hpGauge;
@@ -27,7 +28,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// <summary>
     /// クリックで与えた総ダメージ
     /// </summary>
-    private int _damageTotal;
+    private float _damageTotal;
     [Header("1クリックあたりの与ダメージ量"), SerializeField] private int _clickDamage;
     private int _clickLevel;
     /// <summary>
@@ -43,6 +44,8 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject _resultPanel;
 
+    List<GameObject> _devilList;
+
     [CreateAssetMenu(menuName = "ScriptableObject/BossParameter")]
     public class BossParameter : ScriptableObject
     {
@@ -56,6 +59,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
         _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
+        StartCoroutine(AutoDamage());
     }
 
     private void Update()
@@ -66,6 +70,13 @@ public class MiniGameQuestsManager : MonoBehaviour
             Debug.Log(_currentBossId);
             Debug.Log(_currentHP);
         }//デバック用
+    }
+
+    private void SkillDamage(float damage)
+    {
+        _currentHP -= damage;
+        _damageTotal += damage;
+        BossHP();
     }
 
     /// <summary>
@@ -136,5 +147,12 @@ public class MiniGameQuestsManager : MonoBehaviour
             _ => "C"
         };
         return score;
+    }
+
+    IEnumerator AutoDamage()
+    {
+        Debug.Log("A");
+        yield return new WaitForSeconds(1);
+        StartCoroutine(AutoDamage());
     }
 }
