@@ -53,15 +53,15 @@ public class ResourceManager : MonoBehaviour
     public void GoldenCookie()
     {
         int n = UnityEngine.Random.Range(0, 100);
-        if(n < 5)
+        if (n < 5)
         {
-            StartCoroutine(BuffTime(777,20));
+            StartCoroutine(BuffTime(777, 20));
         }//5%の確率で20秒魔力生産量が777倍
-        else if(n < 20)
+        else if (n < 20)
         {
             StartCoroutine(ClickBuffTime(100, 30));
         }//15%の確率で30秒クリックの生産量が100倍
-        else if(n < 50)
+        else if (n < 50)
         {
             IncreaseResource(_resource * 2 / 10);
         }//30%の確率で所持魔力の20%を即座に獲得
@@ -71,7 +71,7 @@ public class ResourceManager : MonoBehaviour
         }//50%の確率で1分魔力生産量が7倍
 
     }
-    IEnumerator ClickBuffTime(int rate,int time)
+    IEnumerator ClickBuffTime(int rate, int time)
     {
         _clickBuff *= rate;
         yield return new WaitForSeconds(time);
@@ -81,7 +81,11 @@ public class ResourceManager : MonoBehaviour
     {
         _productBuff *= rate;
         _productionEfficiencyText.text = _productBuff.ToString();
+        _cookiePerSecond *= _productBuff / 100;
+        _cookiePerSecondText.text = _cookiePerSecond.ToString();
         yield return new WaitForSeconds(time);
+        _cookiePerSecond /= _productBuff / 100;
+        _cookiePerSecondText.text = _cookiePerSecond.ToString();
         _productBuff /= rate;
         _productionEfficiencyText.text = _productBuff.ToString();
     }
@@ -143,6 +147,8 @@ public class ResourceManager : MonoBehaviour
             p.PriceText.text = $"{p.Name}:{p.Price}";
             _resourceText.text = _resource.ToString();
             p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            _cookiePerSecond += p.ProductionPerSecond * p.ProductionRate * _productBuff / 100 / (p.Name == "Cursor" ? 10 : 1);
+            _cookiePerSecondText.text = _cookiePerSecond.ToString();
         }
     }
     private void UpdateCanBuy()
@@ -165,8 +171,10 @@ public class ResourceManager : MonoBehaviour
             _resource -= price;
             UpdateCanBuy();
             p.ProductionRate *= rate;
+            _cookiePerSecond -= p.ResourcePerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-
+            _cookiePerSecond += p.ProductionPerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
+            _cookiePerSecondText.text = _cookiePerSecond.ToString();
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
             _resourceText.text = _resource.ToString();
         }
@@ -182,7 +190,10 @@ public class ResourceManager : MonoBehaviour
             _resource -= price;
             UpdateCanBuy();
             p.ProductionRate *= rate;
+            _cookiePerSecond -= p.ResourcePerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
+            _cookiePerSecond += p.ProductionPerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
+            _cookiePerSecondText.text = _cookiePerSecond.ToString();
             _increaseAmountOnClick *= rate;
 
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
@@ -194,6 +205,7 @@ public class ResourceManager : MonoBehaviour
         PlayerPrefs.SetString("Resource", _resource.ToString());
         PlayerPrefs.SetString("AllResource", _allResource.ToString());
         PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
+        PlayerPrefs.SetString("CookiePerSecond", (_cookiePerSecond / (_productBuff / 100)).ToString());
         for (int i = 0; i < _products.Count; i++)
         {
             Product p = _products[i];
@@ -205,9 +217,14 @@ public class ResourceManager : MonoBehaviour
     public void Load()
     {
         StopAllCoroutines();
+        //バフの初期化
+        _clickBuff = 1;
+        _productBuff = 100;
+        //セーブデータのロード
         _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
         _allResource = BigInteger.Parse(PlayerPrefs.GetString("AllResource", "0"));
         _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
+        _cookiePerSecond = BigInteger.Parse(PlayerPrefs.GetString("CookiePerSecond", "0"));
         for (int i = 0; i < _products.Count; i++)
         {
             Product p = _products[i];
