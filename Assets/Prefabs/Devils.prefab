@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &260457119181527848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7392748178507306024}
+  - component: {fileID: 3174641268095474139}
+  m_Layer: 0
+  m_Name: Devils
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7392748178507306024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260457119181527848}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.11922, y: 2.438613, z: -10.504295}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3174641268095474139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260457119181527848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be2038192f366440b0952ee4ebd19c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _devils:
+  - _Name: A
+    _isActive: 0
+    _level: 1
+    _rarity: 0
+    _productivity: 1
+    _interval: 15
+    _skill: 0
+    _clickPower: 1
+    _autoClickPower: 2
+    _levelupClickPower: 1
+    _levelupAutoClickPower: 2
+  - _Name: B
+    _isActive: 0
+    _level: 1
+    _rarity: 0
+    _productivity: 1
+    _interval: 15
+    _skill: 1
+    _clickPower: 2
+    _autoClickPower: 1
+    _levelupClickPower: 2
+    _levelupAutoClickPower: 1
+  - _Name: C
+    _isActive: 0
+    _level: 1
+    _rarity: 0
+    _productivity: 2
+    _interval: 15
+    _skill: 3
+    _clickPower: 1
+    _autoClickPower: 1
+    _levelupClickPower: 1
+    _levelupAutoClickPower: 1
+  - _Name: D
+    _isActive: 0
+    _level: 1
+    _rarity: 1
+    _productivity: 3
+    _interval: 15
+    _skill: 7
+    _clickPower: 3
+    _autoClickPower: 3
+    _levelupClickPower: 3
+    _levelupAutoClickPower: 3
+  - _Name: E
+    _isActive: 0
+    _level: 1
+    _rarity: 1
+    _productivity: 3
+    _interval: 15
+    _skill: 6
+    _clickPower: 2
+    _autoClickPower: 4
+    _levelupClickPower: 2
+    _levelupAutoClickPower: 4
+  - _Name: F
+    _isActive: 0
+    _level: 1
+    _rarity: 1
+    _productivity: 3
+    _interval: 15
+    _skill: 0
+    _clickPower: 4
+    _autoClickPower: 2
+    _levelupClickPower: 4
+    _levelupAutoClickPower: 2
+  - _Name: G
+    _isActive: 0
+    _level: 1
+    _rarity: 2
+    _productivity: 3
+    _interval: 15
+    _skill: 6
+    _clickPower: 15
+    _autoClickPower: 10
+    _levelupClickPower: 15
+    _levelupAutoClickPower: 10
+  - _Name: H
+    _isActive: 0
+    _level: 0
+    _rarity: 2
+    _productivity: 3
+    _interval: 15
+    _skill: 2
+    _clickPower: 10
+    _autoClickPower: 15
+    _levelupClickPower: 10
+    _levelupAutoClickPower: 15
+  - _Name: I
+    _isActive: 0
+    _level: 1
+    _rarity: 3
+    _productivity: 5
+    _interval: 15
+    _skill: 5
+    _clickPower: 30
+    _autoClickPower: 30
+    _levelupClickPower: 50
+    _levelupAutoClickPower: 30
+  _maxDevils: 6
