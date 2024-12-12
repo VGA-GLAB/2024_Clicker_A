@@ -8,10 +8,17 @@ using TMPro;
 public class ResourceManager : MonoBehaviour
 {
     private BigInteger _resource = 0;
+    private BigInteger _allResource = 0;
     public BigInteger Resource { get => _resource; set => _resource = value; }
     public List<Product> Products { get => _products; set => _products = value; }
+    private BigInteger _cookiePerSecond = 0;
     private BigInteger _increaseAmountOnClick = 1;
+    private int _clickBuff = 1;
+    private int _productBuff = 100;
     [SerializeField] TextMeshProUGUI _resourceText;
+    [SerializeField] TextMeshProUGUI _allResourceText;
+    [SerializeField] TextMeshProUGUI _productionEfficiencyText;
+    [SerializeField] TextMeshProUGUI _cookiePerSecondText;
     [SerializeField] List<Product> _products;
     [Serializable]
     public class Product
@@ -40,8 +47,43 @@ public class ResourceManager : MonoBehaviour
         {
             Save();
             Debug.Log("セーブしました");
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(60);
         }
+    }
+    public void GoldenCookie()
+    {
+        int n = UnityEngine.Random.Range(0, 100);
+        if(n < 5)
+        {
+            StartCoroutine(BuffTime(777,20));
+        }//5%の確率で20秒魔力生産量が777倍
+        else if(n < 20)
+        {
+            StartCoroutine(ClickBuffTime(100, 30));
+        }//15%の確率で30秒クリックの生産量が100倍
+        else if(n < 50)
+        {
+            IncreaseResource(_resource * 2 / 10);
+        }//30%の確率で所持魔力の20%を即座に獲得
+        else
+        {
+            StartCoroutine(BuffTime(7, 60));
+        }//50%の確率で1分魔力生産量が7倍
+
+    }
+    IEnumerator ClickBuffTime(int rate,int time)
+    {
+        _clickBuff *= rate;
+        yield return new WaitForSeconds(time);
+        _clickBuff /= rate;
+    }
+    IEnumerator BuffTime(int rate, int time)
+    {
+        _productBuff *= rate;
+        _productionEfficiencyText.text = _productBuff.ToString();
+        yield return new WaitForSeconds(time);
+        _productBuff /= rate;
+        _productionEfficiencyText.text = _productBuff.ToString();
     }
     /// <summary>
     /// 毎秒リソースを増やす
@@ -51,7 +93,7 @@ public class ResourceManager : MonoBehaviour
     {
         while (true)
         {
-            IncreaseResource(p.ResourcePerSecond);
+            IncreaseResource(p.ResourcePerSecond * _productBuff / 100);
             yield return new WaitForSeconds(interval);
         }
     }
@@ -62,6 +104,8 @@ public class ResourceManager : MonoBehaviour
     void IncreaseResource(BigInteger resource)
     {
         _resource += resource;
+        _allResource += resource;
+        _allResourceText.text = $"合計生産魔力:{_allResource}";
         _resourceText.text = _resource.ToString();
         UpdateCanBuy();
     }
@@ -70,7 +114,7 @@ public class ResourceManager : MonoBehaviour
     /// </summary>
     public void IncreaseResourceOnClick()
     {
-        IncreaseResource(_increaseAmountOnClick);
+        IncreaseResource(_increaseAmountOnClick * _clickBuff * _productBuff / 100);
     }
     /// <summary>
     /// 施設の購入
@@ -148,6 +192,7 @@ public class ResourceManager : MonoBehaviour
     public void Save()
     {
         PlayerPrefs.SetString("Resource", _resource.ToString());
+        PlayerPrefs.SetString("AllResource", _allResource.ToString());
         PlayerPrefs.SetString("IncreaseAmountOnClick", _increaseAmountOnClick.ToString());
         for (int i = 0; i < _products.Count; i++)
         {
@@ -159,7 +204,9 @@ public class ResourceManager : MonoBehaviour
     }
     public void Load()
     {
+        StopAllCoroutines();
         _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
+        _allResource = BigInteger.Parse(PlayerPrefs.GetString("AllResource", "0"));
         _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
         for (int i = 0; i < _products.Count; i++)
         {
@@ -183,7 +230,18 @@ public class ResourceManager : MonoBehaviour
             p.PriceText.text = $"{p.Name}:{p.Price}";
             _resourceText.text = _resource.ToString();
             p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            _clickBuff = 1;
+            _productBuff = 100;
+            _productionEfficiencyText.text = _productBuff.ToString();
         }
         UpdateCanBuy();
+    }
+    public void ResetSaveData()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetString("AllResource", _allResource.ToString());
+        Start();
+        UpgradeManager upgradeManager = FindAnyObjectByType<UpgradeManager>();
+        upgradeManager.ReStart();
     }
 }
