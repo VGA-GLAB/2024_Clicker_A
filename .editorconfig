@@ -1,0 +1,11 @@
+root = true
+
+[*]
+# 改行形式をCRLFに統一する。
+end_of_line = crlf
+# 行末の空白を消す。
+insert_final_newline = true
+
+# .csファイルのエンコード形式をBOM付UTF-8に強制する。
+[*.cs]
+charset = utf-8-bom
