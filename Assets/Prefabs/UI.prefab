@@ -886,8 +886,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 202.84001}
-  m_SizeDelta: {x: 20, y: -385.67996}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5088341619772728976
 CanvasRenderer:
@@ -972,6 +972,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourceText: {fileID: 5926112388157973217}
+  _allResourceText: {fileID: 0}
+  _productionEfficiencyText: {fileID: 0}
+  _cookiePerSecondText: {fileID: 0}
   _products:
   - Name: Cursor
     ProductionSpeedPerUnit: 1
