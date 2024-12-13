@@ -54,13 +54,6 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     private bool _isTimeStop = false;
 
-    [CreateAssetMenu(menuName = "ScriptableObject/BossParameter")]
-    public class BossParameter : ScriptableObject
-    {
-        [Header("ボスのID")] public int Id;
-        [Header("ボスの最大HP")] public int BossMaxHP;
-        [Header("ボスの見た目")] public Sprite BossImage;
-    }
     private void Start()
     {
         _resultPanel.SetActive(false);
@@ -94,7 +87,7 @@ public class MiniGameQuestsManager : MonoBehaviour
 
         if (_timeLimit <= 0)
         {
-            for (int i = 0; i < _devilList.Count; i++)
+            for (int i = 0; i < 6; i++)
             {
                 _skillBottons[i].enabled = false;
                 _skillBottons[i].image.color = new Color(0, 0, 0, 0);

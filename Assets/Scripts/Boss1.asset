@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: f6fa5ecbe1619bc4aa9e6869d3fa82e4, type: 3}
   m_Name: Boss1
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameQuestsManager/BossParameter
   Id: 0
