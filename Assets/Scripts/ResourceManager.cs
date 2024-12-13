@@ -35,6 +35,7 @@ public class ResourceManager : MonoBehaviour
         [Tooltip("購入可能かどうか")] public bool CanBuy;
         [Tooltip("価格を表示するテキスト")] public TextMeshProUGUI PriceText;
         [Tooltip("施設の個数を表示するテキスト")] public TextMeshProUGUI ProductCountText;
+        [Tooltip("施設全体の生産速度を表示するテキスト")] public TextMeshProUGUI ResourcePerSecondText;
     }
     void Start()
     {
@@ -46,7 +47,6 @@ public class ResourceManager : MonoBehaviour
         while (true)
         {
             Save();
-            Debug.Log("セーブしました");
             yield return new WaitForSeconds(60);
         }
     }
@@ -109,7 +109,7 @@ public class ResourceManager : MonoBehaviour
     {
         _resource += resource;
         _allResource += resource;
-        _allResourceText.text = $"合計生産魔力:{_allResource}";
+        _allResourceText.text = _allResource.ToString();
         _resourceText.text = _resource.ToString();
         UpdateCanBuy();
     }
@@ -144,9 +144,10 @@ public class ResourceManager : MonoBehaviour
                     StartCoroutine(GainPerSecond(p, 10));
             }
             //価格とリソース量の更新
-            p.PriceText.text = $"{p.Name}:{p.Price}";
+            p.PriceText.text = p.Price.ToString();
             _resourceText.text = _resource.ToString();
-            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            p.ProductCountText.text = p.UnitCount.ToString();
+            p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             _cookiePerSecond += p.ProductionPerSecond * p.ProductionRate * _productBuff / 100 / (p.Name == "Cursor" ? 10 : 1);
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
         }
@@ -175,6 +176,7 @@ public class ResourceManager : MonoBehaviour
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             _cookiePerSecond += p.ProductionPerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
+            p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
             _resourceText.text = _resource.ToString();
         }
@@ -194,6 +196,7 @@ public class ResourceManager : MonoBehaviour
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             _cookiePerSecond += p.ProductionPerSecond * _productBuff / (p.Name == "Cursor" ? 10 : 1);
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
+            p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             _increaseAmountOnClick *= rate;
 
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
@@ -213,6 +216,7 @@ public class ResourceManager : MonoBehaviour
             PlayerPrefs.SetString($"{p.Name}ProductionRate", p.ProductionRate.ToString());
         }
         PlayerPrefs.Save();
+        Debug.Log("セーブしました");
     }
     public void Load()
     {
@@ -223,8 +227,10 @@ public class ResourceManager : MonoBehaviour
         //セーブデータのロード
         _resource = BigInteger.Parse(PlayerPrefs.GetString("Resource", "0"));
         _allResource = BigInteger.Parse(PlayerPrefs.GetString("AllResource", "0"));
+        _allResourceText.text = _allResource.ToString();
         _increaseAmountOnClick = BigInteger.Parse(PlayerPrefs.GetString("IncreaseAmountOnClick", "1"));
         _cookiePerSecond = BigInteger.Parse(PlayerPrefs.GetString("CookiePerSecond", "0"));
+        _cookiePerSecondText.text = _cookiePerSecond.ToString();
         for (int i = 0; i < _products.Count; i++)
         {
             Product p = _products[i];
@@ -244,9 +250,10 @@ public class ResourceManager : MonoBehaviour
                     StartCoroutine(GainPerSecond(p, 10));
             }
             //価格とリソース量の更新
-            p.PriceText.text = $"{p.Name}:{p.Price}";
+            p.PriceText.text = p.Price.ToString();
             _resourceText.text = _resource.ToString();
-            p.ProductCountText.text = $"{p.Name}:{p.UnitCount}";
+            p.ProductCountText.text = p.UnitCount.ToString();
+            p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             _clickBuff = 1;
             _productBuff = 100;
             _productionEfficiencyText.text = _productBuff.ToString();
