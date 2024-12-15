@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7392748178507306024}
   - component: {fileID: 3174641268095474139}
+  - component: {fileID: 4711326711741426203}
   m_Layer: 0
   m_Name: Devils
   m_TagString: Untagged
@@ -47,7 +48,7 @@ MonoBehaviour:
   Devils:
   - Name: A
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 0
     Productivity: 1
     Interval: 15
@@ -56,9 +57,10 @@ MonoBehaviour:
     AutoClickPower: 2
     LevelupClickPower: 1
     LevelupAutoClickPower: 2
+    Display: {fileID: 0}
   - Name: B
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 0
     Productivity: 1
     Interval: 15
@@ -67,9 +69,10 @@ MonoBehaviour:
     AutoClickPower: 1
     LevelupClickPower: 2
     LevelupAutoClickPower: 1
+    Display: {fileID: 0}
   - Name: C
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 0
     Productivity: 2
     Interval: 15
@@ -78,9 +81,10 @@ MonoBehaviour:
     AutoClickPower: 1
     LevelupClickPower: 1
     LevelupAutoClickPower: 1
+    Display: {fileID: 0}
   - Name: D
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 1
     Productivity: 3
     Interval: 15
@@ -89,9 +93,10 @@ MonoBehaviour:
     AutoClickPower: 3
     LevelupClickPower: 3
     LevelupAutoClickPower: 3
+    Display: {fileID: 0}
   - Name: E
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 1
     Productivity: 3
     Interval: 15
@@ -100,9 +105,10 @@ MonoBehaviour:
     AutoClickPower: 4
     LevelupClickPower: 2
     LevelupAutoClickPower: 4
+    Display: {fileID: 0}
   - Name: F
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 1
     Productivity: 3
     Interval: 15
@@ -111,9 +117,10 @@ MonoBehaviour:
     AutoClickPower: 2
     LevelupClickPower: 4
     LevelupAutoClickPower: 2
-  - Name: F
+    Display: {fileID: 0}
+  - Name: G
     IsActive: 0
-    Level: 1
+    Level: 0
     Rarity: 2
     Productivity: 3
     Interval: 15
@@ -122,3 +129,45 @@ MonoBehaviour:
     AutoClickPower: 10
     LevelupClickPower: 15
     LevelupAutoClickPower: 10
+    Display: {fileID: 0}
+  - Name: H
+    IsActive: 0
+    Level: 0
+    Rarity: 2
+    Productivity: 3
+    Interval: 15
+    Skill: 2
+    ClickPower: 10
+    AutoClickPower: 15
+    LevelupClickPower: 10
+    LevelupAutoClickPower: 15
+    Display: {fileID: 0}
+  - Name: I
+    IsActive: 0
+    Level: 0
+    Rarity: 2
+    Productivity: 5
+    Interval: 15
+    Skill: 5
+    ClickPower: 30
+    AutoClickPower: 30
+    LevelupClickPower: 50
+    LevelupAutoClickPower: 30
+    Display: {fileID: 0}
+--- !u!114 &4711326711741426203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260457119181527848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccbbdc2faf2278429ead6c9ac83aa78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Normal: []
+  Rare: []
+  SRare: []
+  Legend: []
+  GetDevil: []

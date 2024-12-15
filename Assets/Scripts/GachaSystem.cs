@@ -9,6 +9,7 @@ public class GachaSystem : MonoBehaviour
     public List<DevilManager.Devil> Rare;    //レア使い魔格納用
     public List<DevilManager.Devil> SRare;   // Sレア使い魔格納用
     public List<DevilManager.Devil> Legend; //レジェンド使い魔格納用
+    public List<DevilManager.Devil> GetDevil;
 
     public static GachaSystem Instance;
     private void Start()
@@ -70,6 +71,27 @@ public class GachaSystem : MonoBehaviour
             _ => (0, 20, 50)
         };
 
-        ChooseRarity(ChooseGacha(N, R, SR));
+
+        DevilManager.Devil getDevil = ChooseRarity((ChooseGacha(N, R, SR)));
+
+        if(getDevil.Level == 0)
+        {
+            GetDevil.Add(getDevil);
+            getDevil.Display.SetActive(true);
+        }
+            getDevil.Level++;
+        
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(var getDevil in GetDevil)
+            {
+                Debug.Log(getDevil.Level);
+            }
+            
+        }
+    }
+
 }

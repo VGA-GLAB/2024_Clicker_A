@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DevilManager : MonoBehaviour
 {
+    public static DevilManager Instance;
     [System.Serializable]
     public class Devil
     {
@@ -35,15 +36,15 @@ public class DevilManager : MonoBehaviour
             LevelupAutoClickPower = 0;
         }
     }
-    public enum RarityType 
-    { 
-        Normal, 
-        Rare, 
+    public enum RarityType
+    {
+        Normal,
+        Rare,
         SRare,
         Legend
     }
-    public enum Skills 
-    { 
+    public enum Skills
+    {
         FlashDamage,     //瞬間ダメージ
         AutoDamage,      //自動ダメージ
         TimeDamage,      //時間ダメージ
@@ -54,8 +55,40 @@ public class DevilManager : MonoBehaviour
         ChangeAutoClick  //自動クリック変換
     }
 
-    public List<Devil> Devils = new List<Devil>();
+    public  List<Devil> Devils;
     private int _maxDevils = 6;
+    GachaSystem _gachaSystem;
+    private void Start()
+    {
+        _gachaSystem = FindAnyObjectByType<GachaSystem>();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
-    public List<Devil> NowDevils = new List<Devil>();
+        foreach (Devil devil in Devils)
+        {
+            switch (devil.Rarity)
+            {
+                case RarityType.Normal:
+                    _gachaSystem.Normal.Add(devil);
+                    break;
+
+                case RarityType.Rare:
+                    _gachaSystem.Rare.Add(devil);
+                    break;
+                case RarityType.SRare:
+                    _gachaSystem.SRare.Add(devil);
+                    break;
+                case RarityType.Legend:
+                    _gachaSystem.Legend.Add(devil);
+                    break;
+            }
+        }
+    }
 }
