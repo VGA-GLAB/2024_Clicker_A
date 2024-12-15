@@ -56,6 +56,7 @@ MonoBehaviour:
     AutoClickPower: 2
     LevelupClickPower: 1
     LevelupAutoClickPower: 2
+    Display: {fileID: 0}
   - Name: B
     IsActive: 0
     Level: 1
@@ -67,6 +68,7 @@ MonoBehaviour:
     AutoClickPower: 1
     LevelupClickPower: 2
     LevelupAutoClickPower: 1
+    Display: {fileID: 0}
   - Name: C
     IsActive: 0
     Level: 1
@@ -78,6 +80,7 @@ MonoBehaviour:
     AutoClickPower: 1
     LevelupClickPower: 1
     LevelupAutoClickPower: 1
+    Display: {fileID: 0}
   - Name: D
     IsActive: 0
     Level: 1
@@ -89,6 +92,7 @@ MonoBehaviour:
     AutoClickPower: 3
     LevelupClickPower: 3
     LevelupAutoClickPower: 3
+    Display: {fileID: 0}
   - Name: E
     IsActive: 0
     Level: 1
@@ -100,6 +104,7 @@ MonoBehaviour:
     AutoClickPower: 4
     LevelupClickPower: 2
     LevelupAutoClickPower: 4
+    Display: {fileID: 0}
   - Name: F
     IsActive: 0
     Level: 1
@@ -111,7 +116,8 @@ MonoBehaviour:
     AutoClickPower: 2
     LevelupClickPower: 4
     LevelupAutoClickPower: 2
-  - Name: F
+    Display: {fileID: 0}
+  - Name: G
     IsActive: 0
     Level: 1
     Rarity: 2
@@ -122,3 +128,28 @@ MonoBehaviour:
     AutoClickPower: 10
     LevelupClickPower: 15
     LevelupAutoClickPower: 10
+    Display: {fileID: 0}
+  - Name: H
+    IsActive: 0
+    Level: 1
+    Rarity: 2
+    Productivity: 3
+    Interval: 15
+    Skill: 6
+    ClickPower: 10
+    AutoClickPower: 15
+    LevelupClickPower: 10
+    LevelupAutoClickPower: 15
+    Display: {fileID: 0}
+  - Name: I
+    IsActive: 0
+    Level: 1
+    Rarity: 2
+    Productivity: 5
+    Interval: 15
+    Skill: 6
+    ClickPower: 30
+    AutoClickPower: 30
+    LevelupClickPower: 50
+    LevelupAutoClickPower: 30
+    Display: {fileID: 0}
