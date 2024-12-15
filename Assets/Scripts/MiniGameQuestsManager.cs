@@ -54,8 +54,29 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     private bool _isTimeStop = false;
 
+    private float _defaultClickDamage;
+
+    private float _defaultAutoDamage;
+
+    ResourceManager _resourceManager;
+
+    private string _score;
+
+    private bool _isTimeUP = false;
+
+    private void Awake()
+    {
+        _defaultClickDamage = _clickDamage;
+        _defaultAutoDamage = _autoDamage;
+        _timeLimit = 60;
+        _resourceManager = FindAnyObjectByType<ResourceManager>();
+    }
     private void Start()
     {
+        _isTimeUP = false;
+        _timeLimit = 60;
+        _clickDamage = _defaultClickDamage;
+        _autoDamage = _defaultAutoDamage;
         _resultPanel.SetActive(false);
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
@@ -63,6 +84,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         _devilManager = FindAnyObjectByType<DevilManager>();
         StartCoroutine(AutoDamage());
         Debug.Log(_devilManager.Devils[_devilManager.Devils.Count - 1].Name);
+        BossHP();
 
         for (int i = 0; i < _devilManager.Devils.Count; i++)
         {
@@ -141,6 +163,28 @@ public class MiniGameQuestsManager : MonoBehaviour
             _resultHP.text = $"BossHP : {_currentHP.ToString("00000000")}";
             _resultScore.text = $"Score : {ResultScore()}";
             _rewardText.text = $"Get : {0}";
+
+            if (!_isTimeUP)
+            {
+                _score = ResultScore();
+                switch (_score)
+                {
+                    case "SSS":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 60 * 30).ToString()}";
+                        break;
+                    case "SS":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 60 * 10).ToString()}";//10時間分の魔力
+                        break;
+                    case "S":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 5).ToString()}";//5分の魔力
+                        break;
+                    case "A":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 1).ToString()}";//1分の魔力
+                        break;
+                }
+            }
+            _resultScore.text = $"Score : {ResultScore()}";
+            _isTimeUP = false;
         }//リザルトの表示
     }
 
@@ -151,6 +195,11 @@ public class MiniGameQuestsManager : MonoBehaviour
     {
         BossParameter b = _bossParameters.Find(b => b.Id == _currentBossId);
         _hpGauge.fillAmount = _currentHP / b.BossMaxHP;
+    }
+
+    public void Retry()
+    {
+        Start();
     }
 
     /// <summary>
@@ -164,19 +213,15 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// <summary>
     /// リザルトに表示する評価を判定
     /// </summary>
-    private string ResultScore()
+    private string ResultScore() => _currentHP switch
     {
-        string score = _currentHP switch
-        {
-            < -1000000 => "SSS",
-            < -100000 => "SS",
-            < -10000 => "S",
-            < -1000 => "A",
-            < -1 => "B",
-            _ => "C"
-        };
-        return score;
-    }
+        < -1000000 => "SSS",
+        < -100000 => "SS",
+        < -10000 => "S",
+        < -1000 => "A",
+        < -1 => "B",
+        _ => "C"
+    };
 
     /// <summary>
     /// スキルボタンに表示されたテキストからスキルを判定する
@@ -291,11 +336,11 @@ public class MiniGameQuestsManager : MonoBehaviour
                             break;
                         case 1:
                             _buttonTexts[i].text = _devilList[1].Name;
-                            Debug.Log (_devilList[1].Name);
+                            Debug.Log(_devilList[1].Name);
                             break;
                         case 2:
                             _buttonTexts[i].text = _devilList[2].Name;
-                            Debug.Log ( _devilList[2].Name);
+                            Debug.Log(_devilList[2].Name);
                             break;
                         case 3:
                             _buttonTexts[i].text = _devilList[3].Name;
