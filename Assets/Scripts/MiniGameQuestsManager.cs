@@ -57,6 +57,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     private void Start()
     {
         _resultPanel.SetActive(false);
+        _timeLimit = 60;
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
         _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
@@ -159,6 +160,11 @@ public class MiniGameQuestsManager : MonoBehaviour
     private void LevelUp()
     {
         _clickPowerText.text = _clickDamage.ToString();
+    }
+
+    public void Retry()
+    {
+        Start();
     }
 
     /// <summary>

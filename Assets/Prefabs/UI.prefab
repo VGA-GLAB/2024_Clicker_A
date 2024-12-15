@@ -1856,6 +1856,7 @@ MonoBehaviour:
     PriceText: {fileID: 9150455046610123978}
     ProductCountText: {fileID: 2247916196665985495}
     ResourcePerSecondText: {fileID: 7844169344593655599}
+  _gachaSlider: {fileID: 0}
 --- !u!1 &1078754194314022306
 GameObject:
   m_ObjectHideFlags: 0
@@ -5677,8 +5678,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1442048235029455630}
   m_HandleRect: {fileID: 3909622416596487224}
   m_Direction: 2
-  m_Value: 0.9999996
-  m_Size: 0.83467776
+  m_Value: 1
+  m_Size: 0.8346778
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7484,7 +7485,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6510931672761373537}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8188532643591859494, guid: 45bfec9928a70fe45926e3a53acd8c8d,
+          type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &7366277179853759660
 GameObject:
   m_ObjectHideFlags: 0
