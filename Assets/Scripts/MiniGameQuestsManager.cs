@@ -62,14 +62,14 @@ public class MiniGameQuestsManager : MonoBehaviour
         _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
         _devilManager = FindAnyObjectByType<DevilManager>();
         StartCoroutine(AutoDamage());
-        Debug.Log(_devilManager._devils[_devilManager._devils.Count - 1]._Name);
+        Debug.Log(_devilManager.Devils[_devilManager.Devils.Count - 1].Name);
 
-        for (int i = 0; i < _devilManager._devils.Count; i++)
+        for (int i = 0; i < _devilManager.Devils.Count; i++)
         {
             Debug.Log(i);
-            _devilList.Add(_devilManager._devils[i]);//ここでAddするリストは実際とは異なり使い魔編成のシステムが追加され次第変更します
-            _autoDamage += _devilList[i]._autoClickPower;
-            _clickDamage += _devilList[i]._clickPower;
+            _devilList.Add(_devilManager.Devils[i]);//ここでAddするリストは実際とは異なり使い魔編成のシステムが追加され次第変更します
+            _autoDamage += _devilList[i].AutoClickPower;
+            _clickDamage += _devilList[i].ClickPower;
         }
         StartCoroutine(ButtonEnabled());
 
@@ -190,44 +190,44 @@ public class MiniGameQuestsManager : MonoBehaviour
             return;
         }
 
-        Devil devil = _devilList.Find(devil => devil._Name == text.text);
+        Devil devil = _devilList.Find(devil => devil.Name == text.text);
         text.text = "";
-        Debug.Log(devil._Name);
-        switch (devil._skill)
+        Debug.Log(devil.Name);
+        switch (devil.Skill)
         {
             case Skills.FlashDamage:
-                SkillDamage(_clickDamage * (2 + devil._level));
-                _skillText.text = $"{devil._Name}:FlashDamage";
+                SkillDamage(_clickDamage * (2 + devil.Level));
+                _skillText.text = $"{devil.Name}:FlashDamage";
                 break; //瞬時ダメージ
             case Skills.AutoDamage:
-                SkillDamage(_autoDamage * (5 + devil._level));
-                _skillText.text = $"{devil._Name}:AutoDamage";
+                SkillDamage(_autoDamage * (5 + devil.Level));
+                _skillText.text = $"{devil.Name}:AutoDamage";
                 break;
             case Skills.TimeDamage:
-                SkillDamage(_timeLimit * (2 + devil._level));
-                _skillText.text = $"{devil._Name}:TimeDamage";
+                SkillDamage(_timeLimit * (2 + devil.Level));
+                _skillText.text = $"{devil.Name}:TimeDamage";
                 break;
             case Skills.FlashDmUp:
-                _clickDamage += devil._clickPower * devil._level;
-                _skillText.text = $"{devil._Name}:FlashDamageUP";
+                _clickDamage += devil.ClickPower * devil.Level;
+                _skillText.text = $"{devil.Name}:FlashDamageUP";
                 break;
             case Skills.AutoDmUp:
-                _autoDamage += devil._autoClickPower * devil._level;
-                _skillText.text = $"{devil._Name}:AutoDamageUP";
+                _autoDamage += devil.AutoClickPower * devil.Level;
+                _skillText.text = $"{devil.Name}:AutoDamageUP";
                 break;
             case Skills.StopTime:
                 StartCoroutine(TimeStopper());
-                _skillText.text = $"{devil._Name}:StopTime";
+                _skillText.text = $"{devil.Name}:StopTime";
                 break;
             case Skills.ChangeClick:
                 _clickDamage += _autoDamage;
-                _skillText.text = $"{devil._Name}:ChangeClickPower";
+                _skillText.text = $"{devil.Name}:ChangeClickPower";
                 _autoDamage = 0;
                 break;
             case Skills.ChangeAutoClick:
                 _autoDamage += _clickDamage;
                 _clickDamage = 0;
-                _skillText.text = $"{devil._Name}:ChangeAutoPower";
+                _skillText.text = $"{devil.Name}:ChangeAutoPower";
                 break;
         }
     }
@@ -286,25 +286,25 @@ public class MiniGameQuestsManager : MonoBehaviour
                     switch (n)
                     {
                         case 0:
-                            _buttonTexts[i].text = _devilList[0]._Name;
-                            Debug.Log(_devilList[0]._Name);
+                            _buttonTexts[i].text = _devilList[0].Name;
+                            Debug.Log(_devilList[0].Name);
                             break;
                         case 1:
-                            _buttonTexts[i].text = _devilList[1]._Name;
-                            Debug.Log (_devilList[1]._Name);
+                            _buttonTexts[i].text = _devilList[1].Name;
+                            Debug.Log (_devilList[1].Name);
                             break;
                         case 2:
-                            _buttonTexts[i].text = _devilList[2]._Name;
-                            Debug.Log ( _devilList[2]._Name);
+                            _buttonTexts[i].text = _devilList[2].Name;
+                            Debug.Log ( _devilList[2].Name);
                             break;
                         case 3:
-                            _buttonTexts[i].text = _devilList[3]._Name;
+                            _buttonTexts[i].text = _devilList[3].Name;
                             break;
                         case 4:
-                            _buttonTexts[i].text = _devilList[4]._Name;
+                            _buttonTexts[i].text = _devilList[4].Name;
                             break;
                         case 5:
-                            _buttonTexts[i].text = _devilList[5]._Name;
+                            _buttonTexts[i].text = _devilList[5].Name;
                             break;
                         case 6:
                             _buttonTexts[i].text = "Skill Failed";

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,7 +13,7 @@ public class GachaSystem : MonoBehaviour
     public static GachaSystem Instance;
     private void Start()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -25,10 +23,9 @@ public class GachaSystem : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public DevilManager.Devil ChooseRarerity(string Rarerity) //ガチャ結果からレアリティに応じた使い魔選び
+    public DevilManager.Devil ChooseRarity(string rarity) //ガチャ結果からレアリティに応じた使い魔選び
     {
-        string _rarity = Rarerity;
-        List<DevilManager.Devil> _targetList = _rarity switch
+        List<DevilManager.Devil> targetList = rarity switch
         {
             "Normal" => Normal,
             "Rare" => Rare,
@@ -37,276 +34,39 @@ public class GachaSystem : MonoBehaviour
             _ => null,
         };
 
-        if(_targetList != null && _targetList.Count > 0)
+        if (targetList != null && targetList.Count > 0)
         {
-            int _index = Random.Range(0, _targetList.Count);
-            return _targetList[_index];
+            int index = Random.Range(0, targetList.Count);
+            return targetList[index];
         }
-
         return null;
-
     }
 
     //以下消費魔力量に応じたガチャ確率
-    public string Gacha1()
+    public string ChooseGacha(int normalChance, int rareChance, int superRareChance) => Random.Range(1, 101) switch
     {
-        float randomNum = Random.Range(0f, 100f);
-
-        if(randomNum < 97)
-        {
-            return "Normal";
-        }
-        else if(randomNum == 97)
-        {
-            return "Rare";
-        }
-        else if(randomNum == 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha2()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 90)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 98)
-        {
-            return "Rare";
-        }
-        else if (randomNum == 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha3()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 80)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 98)
-        {
-            return "Rare";
-        }
-        else if (randomNum == 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha4()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 70)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 98)
-        {
-            return "Rare";
-        }
-        else if (randomNum == 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha5()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 60)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 98)
-        {
-            return "Rare";
-        }
-        else if (randomNum == 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha6()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 50)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 94)
-        {
-            return "Rare";
-        }
-        else if (randomNum < 99)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha7()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 30)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 89)
-        {
-            return "Rare";
-        }
-        else if (randomNum < 99)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha8()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 20)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 80)
-        {
-            return "Rare";
-        }
-        else if (randomNum < 98)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha9()
-    {
-        float randomNum = Random.Range(0f, 100f);
-
-        if (randomNum < 10)
-        {
-            return "Normal";
-        }
-        else if (randomNum < 60)
-        {
-            return "Rare";
-        }
-        else if (randomNum < 90)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
-
-    public string Gacha10()
-    {
-        float randomNum = Random.Range(0f, 90f);
-
-        if (randomNum < 20)
-        {
-            return "Rare";
-        }
-        else if (randomNum < 70)
-        {
-            return "SuperRare";
-        }
-        else
-        {
-            return "Legend";
-        }
-    }
+        var i when i <= normalChance => "Normal",
+        var i when i <= normalChance + rareChance => "Rare",
+        var i when i <= normalChance + rareChance + superRareChance => "SuperRare",
+        _ => "Legend"
+    };
 
     public void OutPutDevil()
     {
-        BigInteger _pay = FindAnyObjectByType<ResourceManager>().Gacha();
-
-        if (_pay < 1000)
+        BigInteger pay = FindAnyObjectByType<ResourceManager>().Gacha();
+        (int N, int R, int SR) = pay switch
         {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha1());
-        }
-        else if (_pay < 10000)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha2());
-        }
-        else if (_pay < (BigInteger)1e5f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha3());
-        }
-        else if (_pay < (BigInteger)1e6f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha4());
-        }
-        else if (_pay < (BigInteger)1e7f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha5());
-        }
-        else if (_pay < (BigInteger)1e9f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha6());
-        }
-        else if (_pay < (BigInteger)1e10f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha7());
-        }
-        else if (_pay < (BigInteger)1e11f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha8());
-        }
-        else if (_pay < (BigInteger)1e12f)
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha9());
-        }
-        else
-        {
-            GachaSystem.Instance.ChooseRarerity(GachaSystem.Instance.Gacha10());
-        }
+            var i when i <= (BigInteger)1e3f => (97, 1, 1),
+            var i when i <= (BigInteger)1e4f => (90, 8, 1),
+            var i when i <= (BigInteger)1e5f => (80, 18, 1),
+            var i when i <= (BigInteger)1e6f => (70, 28, 1),
+            var i when i <= (BigInteger)1e7f => (60, 38, 1),
+            var i when i <= (BigInteger)1e8f => (50, 44, 5),
+            var i when i <= (BigInteger)1e9f => (30, 59, 10),
+            var i when i <= (BigInteger)1e10f => (20, 60, 18),
+            var i when i <= (BigInteger)1e11f => (10, 50, 30),
+            _ => (0, 20, 50)
+        };
+        ChooseGacha(N, R, SR);
     }
 }
