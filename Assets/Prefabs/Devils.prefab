@@ -44,104 +44,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be2038192f366440b0952ee4ebd19c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _devils:
-  - _Name: A
-    _isActive: 0
-    _level: 1
-    _rarity: 0
-    _productivity: 1
-    _interval: 15
-    _skill: 0
-    _clickPower: 1
-    _autoClickPower: 2
-    _levelupClickPower: 1
-    _levelupAutoClickPower: 2
-  - _Name: B
-    _isActive: 0
-    _level: 1
-    _rarity: 0
-    _productivity: 1
-    _interval: 15
-    _skill: 1
-    _clickPower: 2
-    _autoClickPower: 1
-    _levelupClickPower: 2
-    _levelupAutoClickPower: 1
-  - _Name: C
-    _isActive: 0
-    _level: 1
-    _rarity: 0
-    _productivity: 2
-    _interval: 15
-    _skill: 3
-    _clickPower: 1
-    _autoClickPower: 1
-    _levelupClickPower: 1
-    _levelupAutoClickPower: 1
-  - _Name: D
-    _isActive: 0
-    _level: 1
-    _rarity: 1
-    _productivity: 3
-    _interval: 15
-    _skill: 7
-    _clickPower: 3
-    _autoClickPower: 3
-    _levelupClickPower: 3
-    _levelupAutoClickPower: 3
-  - _Name: E
-    _isActive: 0
-    _level: 1
-    _rarity: 1
-    _productivity: 3
-    _interval: 15
-    _skill: 6
-    _clickPower: 2
-    _autoClickPower: 4
-    _levelupClickPower: 2
-    _levelupAutoClickPower: 4
-  - _Name: F
-    _isActive: 0
-    _level: 1
-    _rarity: 1
-    _productivity: 3
-    _interval: 15
-    _skill: 0
-    _clickPower: 4
-    _autoClickPower: 2
-    _levelupClickPower: 4
-    _levelupAutoClickPower: 2
-  - _Name: G
-    _isActive: 0
-    _level: 1
-    _rarity: 2
-    _productivity: 3
-    _interval: 15
-    _skill: 6
-    _clickPower: 15
-    _autoClickPower: 10
-    _levelupClickPower: 15
-    _levelupAutoClickPower: 10
-  - _Name: H
-    _isActive: 0
-    _level: 0
-    _rarity: 2
-    _productivity: 3
-    _interval: 15
-    _skill: 2
-    _clickPower: 10
-    _autoClickPower: 15
-    _levelupClickPower: 10
-    _levelupAutoClickPower: 15
-  - _Name: I
-    _isActive: 0
-    _level: 1
-    _rarity: 3
-    _productivity: 5
-    _interval: 15
-    _skill: 5
-    _clickPower: 30
-    _autoClickPower: 30
-    _levelupClickPower: 50
-    _levelupAutoClickPower: 30
-  _maxDevils: 6
+  Devils:
+  - Name: A
+    IsActive: 0
+    Level: 1
+    Rarity: 0
+    Productivity: 1
+    Interval: 15
+    Skill: 0
+    ClickPower: 1
+    AutoClickPower: 2
+    LevelupClickPower: 1
+    LevelupAutoClickPower: 2
+  - Name: B
+    IsActive: 0
+    Level: 1
+    Rarity: 0
+    Productivity: 1
+    Interval: 15
+    Skill: 1
+    ClickPower: 2
+    AutoClickPower: 1
+    LevelupClickPower: 2
+    LevelupAutoClickPower: 1
+  - Name: C
+    IsActive: 0
+    Level: 1
+    Rarity: 0
+    Productivity: 2
+    Interval: 15
+    Skill: 3
+    ClickPower: 1
+    AutoClickPower: 1
+    LevelupClickPower: 1
+    LevelupAutoClickPower: 1
+  - Name: D
+    IsActive: 0
+    Level: 1
+    Rarity: 1
+    Productivity: 3
+    Interval: 15
+    Skill: 7
+    ClickPower: 3
+    AutoClickPower: 3
+    LevelupClickPower: 3
+    LevelupAutoClickPower: 3
+  - Name: E
+    IsActive: 0
+    Level: 1
+    Rarity: 1
+    Productivity: 3
+    Interval: 15
+    Skill: 6
+    ClickPower: 2
+    AutoClickPower: 4
+    LevelupClickPower: 2
+    LevelupAutoClickPower: 4
+  - Name: F
+    IsActive: 0
+    Level: 1
+    Rarity: 1
+    Productivity: 3
+    Interval: 15
+    Skill: 0
+    ClickPower: 4
+    AutoClickPower: 2
+    LevelupClickPower: 4
+    LevelupAutoClickPower: 2
+  - Name: F
+    IsActive: 0
+    Level: 1
+    Rarity: 2
+    Productivity: 3
+    Interval: 15
+    Skill: 6
+    ClickPower: 15
+    AutoClickPower: 10
+    LevelupClickPower: 15
+    LevelupAutoClickPower: 10

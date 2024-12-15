@@ -18,6 +18,7 @@ public class DevilManager : MonoBehaviour
         public float AutoClickPower;
         public float LevelupClickPower;　　　//レベルアップごとのクリック力上昇
         public float LevelupAutoClickPower;　//レベルアップごとの自動クリック上昇
+        public GameObject Display;
 
 
         public Devil(string _name, RarityType rarity, float productivity, float interval)
@@ -56,5 +57,5 @@ public class DevilManager : MonoBehaviour
     public List<Devil> Devils = new List<Devil>();
     private int _maxDevils = 6;
 
-
+    public List<Devil> NowDevils = new List<Devil>();
 }

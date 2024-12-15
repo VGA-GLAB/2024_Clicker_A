@@ -23,14 +23,14 @@ public class GachaSystem : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public DevilManager.Devil ChooseRarity(string rarity) //ガチャ結果からレアリティに応じた使い魔選び
+    public DevilManager.Devil ChooseRarity(DevilManager.RarityType rarity) //ガチャ結果からレアリティに応じた使い魔選び
     {
         List<DevilManager.Devil> targetList = rarity switch
         {
-            "Normal" => Normal,
-            "Rare" => Rare,
-            "SuperRare" => SRare,
-            "Legend" => Legend,
+            DevilManager.RarityType.Normal => Normal,
+            DevilManager.RarityType.Rare => Rare,
+            DevilManager.RarityType.SRare => SRare,
+            DevilManager.RarityType.Legend => Legend,
             _ => null,
         };
 
@@ -40,17 +40,19 @@ public class GachaSystem : MonoBehaviour
             return targetList[index];
         }
         return null;
+        
     }
 
     //以下消費魔力量に応じたガチャ確率
-    public string ChooseGacha(int normalChance, int rareChance, int superRareChance) => Random.Range(1, 101) switch
+    public DevilManager.RarityType ChooseGacha(int normalChance, int rareChance, int superRareChance) => Random.Range(1, 101) switch
     {
-        var i when i <= normalChance => "Normal",
-        var i when i <= normalChance + rareChance => "Rare",
-        var i when i <= normalChance + rareChance + superRareChance => "SuperRare",
-        _ => "Legend"
+        var i when i <= normalChance => DevilManager.RarityType.Normal,
+        var i when i <= normalChance + rareChance => DevilManager.RarityType.Rare,
+        var i when i <= normalChance + rareChance + superRareChance => DevilManager.RarityType.SRare,
+        _ => DevilManager.RarityType.Legend,
+        
     };
-
+    
     public void OutPutDevil()
     {
         BigInteger pay = FindAnyObjectByType<ResourceManager>().Gacha();
@@ -67,6 +69,7 @@ public class GachaSystem : MonoBehaviour
             var i when i <= (BigInteger)1e11f => (10, 50, 30),
             _ => (0, 20, 50)
         };
-        ChooseGacha(N, R, SR);
+
+        ChooseRarity(ChooseGacha(N, R, SR));
     }
 }
