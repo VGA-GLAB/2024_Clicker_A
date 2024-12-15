@@ -78,6 +78,7 @@ public class ResourceManager : MonoBehaviour
     {
         BigInteger decreeseAmount = _resource * (int)(_gachaSlider.value * 100) / 100;
         _resource -= decreeseAmount;
+        _resourceText.text = Big(_resource);
         return decreeseAmount;
     }
     public void GoldenCookie()
