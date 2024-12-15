@@ -135,6 +135,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         }
         else
         {
+            _timerText.text = "0.00";
             _skillText.text = "";
             _resultPanel.SetActive(true);
             _resultHP.text = $"BossHP : {_currentHP.ToString("00000000")}";
