@@ -74,14 +74,22 @@ public class GachaSystem : MonoBehaviour
 
         DevilManager.Devil getDevil = ChooseRarity((ChooseGacha(N, R, SR)));
 
-        if(getDevil.Level == 1)
+        if(getDevil.Level == 0)
         {
             GetDevil.Add(getDevil);
-
         }
-        else
-        {
             getDevil.Level++;
+        
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(var getDevil in GetDevil)
+            {
+                Debug.Log(getDevil.Level);
+            }
+            
         }
     }
 
