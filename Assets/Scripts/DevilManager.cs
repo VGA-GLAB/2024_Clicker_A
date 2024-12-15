@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,31 +7,31 @@ public class DevilManager : MonoBehaviour
     [System.Serializable]
     public class Devil
     {
-        public string _Name;  //g‚¢–‚‚Ì–¼‘O
-        public bool _isActive;@@//ƒAƒNƒeƒBƒuó‘Ô
-        public int _level;   //ƒŒƒxƒ‹
-        public RarityType _rarity;@//ƒŒƒAƒŠƒeƒB
-        public float _productivity;@//¶Y—Ê
-        public float _interval;@@//¶YŠÔŠu
-        public Skills _skill;@@@//ƒXƒLƒ‹
-        public float _clickPower;@//ƒNƒŠƒbƒN—Í
-        public float _autoClickPower;
-        public float _levelupClickPower;@@@//ƒŒƒxƒ‹ƒAƒbƒv‚²‚Æ‚ÌƒNƒŠƒbƒN—Íã¸
-        public float _levelupAutoClickPower;@//ƒŒƒxƒ‹ƒAƒbƒv‚²‚Æ‚Ì©“®ƒNƒŠƒbƒNã¸
+        public string Name;  //ä½¿ã„é­”ã®åå‰
+        public bool IsActive;ã€€ã€€//ã‚¢ã‚¯ãƒ†ã‚£ãƒ–çŠ¶æ…‹
+        public int Level;   //ãƒ¬ãƒ™ãƒ«
+        public RarityType Rarity;ã€€//ãƒ¬ã‚¢ãƒªãƒ†ã‚£
+        public float Productivity;ã€€//ç”Ÿç”£é‡
+        public float Interval;ã€€ã€€//ç”Ÿç”£é–“éš”
+        public Skills Skill;ã€€ã€€ã€€//ã‚¹ã‚­ãƒ«
+        public float ClickPower;ã€€//ã‚¯ãƒªãƒƒã‚¯åŠ›
+        public float AutoClickPower;
+        public float LevelupClickPower;ã€€ã€€ã€€//ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã”ã¨ã®ã‚¯ãƒªãƒƒã‚¯åŠ›ä¸Šæ˜‡
+        public float LevelupAutoClickPower;ã€€//ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã”ã¨ã®è‡ªå‹•ã‚¯ãƒªãƒƒã‚¯ä¸Šæ˜‡
 
 
         public Devil(string _name, RarityType rarity, float productivity, float interval)
         {
-            _Name = _name;
-            _isActive = false;
-            _level = 1;
-            _rarity = rarity;
-            _productivity = productivity;
-            _interval = interval;
-            _clickPower = 0;
-            _autoClickPower = 0;
-            _levelupClickPower = 0;
-            _levelupAutoClickPower = 0;
+            Name = _name;
+            IsActive = false;
+            Level = 1;
+            Rarity = rarity;
+            Productivity = productivity;
+            Interval = interval;
+            ClickPower = 0;
+            AutoClickPower = 0;
+            LevelupClickPower = 0;
+            LevelupAutoClickPower = 0;
         }
     }
     public enum RarityType 
@@ -43,18 +43,18 @@ public class DevilManager : MonoBehaviour
     }
     public enum Skills 
     { 
-        FlashDamage,     //uŠÔƒ_ƒ[ƒW
-        AutoDamage,      //©“®ƒ_ƒ[ƒW
-        TimeDamage,      //ŠÔƒ_ƒ[ƒW
-        FlashDmUp,       //uƒNƒŠƒbƒN—Í‘‰Á
-        AutoDmUp,        //uŠÔ©“®ƒNƒŠƒbƒN‘‰Á
-        StopTime,        //ŠÔ‘‰Á
-        ChangeClick,     //ƒNƒŠƒbƒN—Í•ÏŠ·
-        ChangeAutoClick  //©“®ƒNƒŠƒbƒN•ÏŠ·
+        FlashDamage,     //ç¬é–“ãƒ€ãƒ¡ãƒ¼ã‚¸
+        AutoDamage,      //è‡ªå‹•ãƒ€ãƒ¡ãƒ¼ã‚¸
+        TimeDamage,      //æ™‚é–“ãƒ€ãƒ¡ãƒ¼ã‚¸
+        FlashDmUp,       //ç¬æ™‚ã‚¯ãƒªãƒƒã‚¯åŠ›å¢—åŠ 
+        AutoDmUp,        //ç¬é–“è‡ªå‹•ã‚¯ãƒªãƒƒã‚¯å¢—åŠ 
+        StopTime,        //æ™‚é–“å¢—åŠ 
+        ChangeClick,     //ã‚¯ãƒªãƒƒã‚¯åŠ›å¤‰æ›
+        ChangeAutoClick  //è‡ªå‹•ã‚¯ãƒªãƒƒã‚¯å¤‰æ›
     }
 
-    public List<Devil> _devils = new List<Devil>();
-    public int _maxDevils = 6;
+    public List<Devil> Devils = new List<Devil>();
+    private int _maxDevils = 6;
 
 
 }
