@@ -74,6 +74,7 @@ public class MiniGameQuestsManager : MonoBehaviour
     {
         _defaultAutoDamage = _autoDamage;
         _defaultClickDamage = _clickDamage;
+        _timeLimit = 60;
     }
     private void Start()
     {
@@ -85,6 +86,7 @@ public class MiniGameQuestsManager : MonoBehaviour
         _isTimeUP = false;
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
+        BossHP();
         _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
         _devilManager = FindAnyObjectByType<DevilManager>();
         StartCoroutine(AutoDamage());
