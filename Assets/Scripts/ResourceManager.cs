@@ -171,6 +171,10 @@ public class ResourceManager : MonoBehaviour
             p.UnitCount++;
             //価格を上げる
             p.Price = p.DefaultPrice * BigInteger.Pow(115, p.UnitCount) / BigInteger.Pow(100, p.UnitCount);
+            if (p.Name == "Cursor")
+            {
+                _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
             //生産速度を更新
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
             UpdateCanBuy();
@@ -186,7 +190,14 @@ public class ResourceManager : MonoBehaviour
             _resourceText.text = _resource.ToString();
             p.ProductCountText.text = p.UnitCount.ToString();
             p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
-            _cookiePerSecond += p.ProductionPerSecond * p.ProductionRate * (_productBuff + _addBuff) / 100 / (p.Name == "Cursor" ? 10 : 1);
+            if(p.Name == "Cursor")
+            {
+                _cookiePerSecond += p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
+            else
+            {
+                _cookiePerSecond += p.ProductionPerSecond * p.ProductionRate * (_productBuff + _addBuff) / 100;
+            }
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
         }
     }
@@ -210,9 +221,23 @@ public class ResourceManager : MonoBehaviour
             _resource -= price;
             UpdateCanBuy();
             p.ProductionRate *= rate;
-            _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / (p.Name == "Cursor" ? 10 : 1);
+            if(p.Name == "Cursor")
+            {
+                _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
+            else
+            {
+                _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / 100;
+            }
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            _cookiePerSecond += p.ProductionPerSecond * (_productBuff + _addBuff) / (p.Name == "Cursor" ? 10 : 1);
+            if (p.Name == "Cursor")
+            {
+                _cookiePerSecond += p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
+            else
+            {
+                _cookiePerSecond += p.ResourcePerSecond * (_productBuff + _addBuff) / 100;
+            }
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
             p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             // Fix: UpGrade購入時にリソース表示が更新されていない不具合を修正。
@@ -230,9 +255,23 @@ public class ResourceManager : MonoBehaviour
             _resource -= price;
             UpdateCanBuy();
             p.ProductionRate *= rate;
-            _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / (p.Name == "Cursor" ? 10 : 1);
+            if (p.Name == "Cursor")
+            {
+                _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
+            else
+            {
+                _cookiePerSecond -= p.ResourcePerSecond * (_productBuff + _addBuff) / 100;
+            }
             p.ResourcePerSecond = p.ProductionPerSecond * p.UnitCount * p.ProductionRate;
-            _cookiePerSecond += p.ProductionPerSecond * (_productBuff + _addBuff) / (p.Name == "Cursor" ? 10 : 1);
+            if (p.Name == "Cursor")
+            {
+                _cookiePerSecond += p.ResourcePerSecond * (_productBuff + _addBuff) / 1000;
+            }
+            else
+            {
+                _cookiePerSecond += p.ResourcePerSecond * (_productBuff + _addBuff) / 100;
+            }
             _cookiePerSecondText.text = _cookiePerSecond.ToString();
             p.ResourcePerSecondText.text = p.ResourcePerSecond.ToString();
             _increaseAmountOnClick *= rate;
