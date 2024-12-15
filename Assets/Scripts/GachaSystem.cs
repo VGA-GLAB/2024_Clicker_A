@@ -77,6 +77,7 @@ public class GachaSystem : MonoBehaviour
         if(getDevil.Level == 0)
         {
             GetDevil.Add(getDevil);
+            getDevil.Display.SetActive(true);
         }
             getDevil.Level++;
         
