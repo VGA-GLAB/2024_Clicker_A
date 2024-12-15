@@ -50,14 +50,39 @@ public class MiniGameQuestsManager : MonoBehaviour
 
     DevilManager _devilManager;
 
+    ResourceManager _resourceManager;
+
     List<Devil> _devilList = new List<Devil>();
 
     private bool _isTimeStop = false;
 
+    private string _score;
+
+    /// <summary>
+    /// リトライ時にクリックダメージをリセットするため
+    /// </summary>
+    private float _defaultClickDamage;
+
+    /// <summary>
+    /// リトライ時にオートダメージをリセットするため
+    /// </summary>
+    private float _defaultAutoDamage;
+
+    bool _isTimeUP = false;
+
+    private void Awake()
+    {
+        _defaultAutoDamage = _autoDamage;
+        _defaultClickDamage = _clickDamage;
+    }
     private void Start()
     {
+        _autoDamage = _defaultAutoDamage;
+        _clickDamage = _defaultClickDamage;
+        _resourceManager = FindAnyObjectByType<ResourceManager>();
         _resultPanel.SetActive(false);
         _timeLimit = 60;
+        _isTimeUP = false;
         _currentBossId = Random.Range(0, 4);
         _currentHP = _bossParameters[_currentBossId].BossMaxHP;
         _clickPowerText.text = $"Power : {_clickDamage.ToString()}";
@@ -140,9 +165,29 @@ public class MiniGameQuestsManager : MonoBehaviour
             _skillText.text = "";
             _resultPanel.SetActive(true);
             _resultHP.text = $"BossHP : {_currentHP.ToString("00000000")}";
-            _resultScore.text = $"Score : {ResultScore()}";
-            _rewardText.text = $"Get : {0}";
-        }//リザルトの表示
+
+            if (!_isTimeUP)
+            {
+                _score = ResultScore();
+                switch (_score)
+                {
+                    case "SSS":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 60 * 30).ToString()}";
+                        break;
+                    case "SS":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 60 * 10).ToString()}";//10時間分の魔力
+                        break;
+                    case "S":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 5).ToString()}";//5分の魔力
+                        break;
+                    case "A":
+                        _rewardText.text = $"Get : {_resourceManager.IncreaseResource(60 * 1).ToString()}";//1分の魔力
+                        break;
+                }
+                _resultScore.text = $"Score : {_score}";
+                _isTimeUP = true;
+            }//リザルトの表示(1度だけ処理）
+        }
     }
 
     /// <summary>
@@ -170,19 +215,16 @@ public class MiniGameQuestsManager : MonoBehaviour
     /// <summary>
     /// リザルトに表示する評価を判定
     /// </summary>
-    private string ResultScore()
+    private string ResultScore() => _currentHP switch
     {
-        string score = _currentHP switch
-        {
-            < -1000000 => "SSS",
-            < -100000 => "SS",
-            < -10000 => "S",
-            < -1000 => "A",
-            < -1 => "B",
-            _ => "C"
-        };
-        return score;
-    }
+        < -1000000 => "SSS",
+        < -100000 => "SS",
+        < -10000 => "S",
+        < -1000 => "A",
+        < -1 => "B",
+        _ => "C"
+    };
+
 
     /// <summary>
     /// スキルボタンに表示されたテキストからスキルを判定する
@@ -297,11 +339,11 @@ public class MiniGameQuestsManager : MonoBehaviour
                             break;
                         case 1:
                             _buttonTexts[i].text = _devilList[1]._Name;
-                            Debug.Log (_devilList[1]._Name);
+                            Debug.Log(_devilList[1]._Name);
                             break;
                         case 2:
                             _buttonTexts[i].text = _devilList[2]._Name;
-                            Debug.Log ( _devilList[2]._Name);
+                            Debug.Log(_devilList[2]._Name);
                             break;
                         case 3:
                             _buttonTexts[i].text = _devilList[3]._Name;
