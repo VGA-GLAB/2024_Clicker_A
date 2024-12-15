@@ -120,6 +120,15 @@ public class ResourceManager : MonoBehaviour
         _resourceText.text = _resource.ToString();
         UpdateCanBuy();
     }
+    public void IncreaseResource(int second)
+    {
+        BigInteger increase = _cookiePerSecond * second;
+        _resource += increase;
+        _allResource += increase;
+        _allResourceText.text = _allResource.ToString();
+        _resourceText.text = _resource.ToString();
+        UpdateCanBuy();
+    }
     /// <summary>
     /// クリック時にリソースを増やす
     /// </summary>
