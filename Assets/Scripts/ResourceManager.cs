@@ -20,6 +20,7 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _productionEfficiencyText;
     [SerializeField] TextMeshProUGUI _cookiePerSecondText;
     [SerializeField] List<Product> _products;
+    [SerializeField] Slider _gachaSlider;
     [Serializable]
     public class Product
     {
@@ -49,6 +50,12 @@ public class ResourceManager : MonoBehaviour
             Save();
             yield return new WaitForSeconds(60);
         }
+    }
+    public BigInteger Gacha()
+    {
+        BigInteger decreeseAmount = _resource * (int)(_gachaSlider.value * 100) / 100;
+        _resource -= decreeseAmount;
+        return decreeseAmount;
     }
     public void GoldenCookie()
     {
